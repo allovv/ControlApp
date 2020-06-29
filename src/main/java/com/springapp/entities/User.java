@@ -1,10 +1,15 @@
 package com.springapp.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users_table")
-public class User {
+public class User implements UserDetails {
+    //-------------------------------------------------------------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -13,6 +18,12 @@ public class User {
     private String password;
     private String email;
     private boolean active;
+
+    @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Roles> roles; //TODO: Roles
+    //-------------------------------------------------------------
 
     protected User() {}
 
@@ -59,10 +70,43 @@ public class User {
         this.active = active;
     }
 
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return String.format(
                 "User[id=%d, username='%s', password='%s', email='%s']",
                 id, username, password, email);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive();
     }
 }
