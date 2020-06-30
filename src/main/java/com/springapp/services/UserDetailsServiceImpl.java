@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     //сервис для WebSecurityConfig
     //-------------------------------------------------------------
     @Autowired

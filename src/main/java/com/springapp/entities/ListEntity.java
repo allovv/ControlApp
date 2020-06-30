@@ -8,18 +8,18 @@ public class ListEntity {
     //-------------------------------------------------------------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private ProjectEntity fromProject;
+    private Long projectID; //TODO: id or Entity?
     //-------------------------------------------------------------
 
-    ListEntity() {}
+    protected ListEntity() {}
 
-    ListEntity(String name, ProjectEntity fromProject) {
+    public ListEntity(String name, Long projectID) {
         this.name = name;
-        this.fromProject = fromProject;
+        this.projectID = projectID;
     }
 
     public Long getId() {
@@ -38,11 +38,11 @@ public class ListEntity {
         this.name = name;
     }
 
-    public ProjectEntity getFromProject() {
-        return fromProject;
+    public Long getProjectID() {
+        return projectID;
     }
 
-    public void setFromProject(ProjectEntity fromProject) {
-        this.fromProject = fromProject;
+    public void setProjectID(Long projectID) {
+        this.projectID = projectID;
     }
 }

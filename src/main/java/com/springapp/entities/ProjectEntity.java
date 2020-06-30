@@ -17,17 +17,17 @@ public class ProjectEntity {
     private String updateDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserEntity creator;
+    private Long creatorID;
     //-------------------------------------------------------------
 
-    ProjectEntity() {}
+    protected ProjectEntity() {}
 
-    ProjectEntity(UserEntity creator, String description, String name) {
+    public ProjectEntity(Long creatorID, String description, String name) {
         this.name = name;
         this.description = description;
         this.creationDate = "";
         this.updateDate = creationDate;
-        this.creator = creator;
+        this.creatorID = creatorID;
     }
 
     public Long getId() {
@@ -62,11 +62,19 @@ public class ProjectEntity {
         this.updateDate = updateDate;
     }
 
-    public UserEntity getCreator() {
-        return creator;
+    public String getName() {
+        return name;
     }
 
-    public void setCreator(UserEntity creator) {
-        this.creator = creator;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getCreatorID() {
+        return creatorID;
+    }
+
+    public void setCreatorID(Long creatorID) {
+        this.creatorID = creatorID;
     }
 }

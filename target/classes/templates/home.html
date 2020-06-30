@@ -36,12 +36,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each ="user : ${users}">
-                                <td th:text="${user.username}">...</td>
-                                <td th:text="${user.email}">...</td>
-                                <td th:text="${user.password}">...</td>
-                                <td th:text="${user.active}">...</td>
-                                <td th:text="${user.id}">...</td>
+                            <tr th:each ="userEntity : ${users}">
+                                <td th:text="${userEntity.username}">...</td>
+                                <td th:text="${userEntity.email}">...</td>
+                                <td th:text="${userEntity.password}">...</td>
+                                <td th:text="${userEntity.active}">...</td>
+                                <td th:text="${userEntity.id}">...</td>
                             </tr>
                         </tbody>
                     </table>
