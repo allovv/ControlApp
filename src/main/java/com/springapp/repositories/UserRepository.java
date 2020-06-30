@@ -1,12 +1,12 @@
 package com.springapp.repositories;
 
-import com.springapp.entities.User;
+import com.springapp.entities.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
-    User findByEmail(String email);
-    User findByUsername(String username);
+    UserEntity findByEmail(String email);
+    UserEntity findByUsername(String username);
 
 }

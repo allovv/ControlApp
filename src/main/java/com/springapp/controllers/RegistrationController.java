@@ -1,7 +1,7 @@
 package com.springapp.controllers;
 
 import com.springapp.entities.Roles;
-import com.springapp.entities.User;
+import com.springapp.entities.UserEntity;
 import com.springapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,10 +28,10 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute User user, Map<String, Object> model) {
+    public String addUser(@ModelAttribute UserEntity userEntity, Map<String, Object> model) {
         //проверка при регистрации
-        User userDB = userRepository.findByEmail(user.getEmail());
-        if (userDB != null) {
+        UserEntity userEntityDB = userRepository.findByEmail(userEntity.getEmail());
+        if (userEntityDB != null) {
             model.put("errorMessage", "Пользователь с таким email уже зарегистрирован!");
             return "registration";
         }
@@ -39,10 +39,10 @@ public class RegistrationController {
         //установка ролей TODO: по умолчанию все просто USER
         Set<Roles> roles = new HashSet<>();
         roles.add(Roles.USER);
-        user.setRoles(roles);
+        userEntity.setRoles(roles);
 
         //сохранение пользователя
-        userRepository.save(user);
+        userRepository.save(userEntity);
 
         return "redirect:/login";
     }

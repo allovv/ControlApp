@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users_table")
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
     //-------------------------------------------------------------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,9 +25,9 @@ public class User implements UserDetails {
     private Set<Roles> roles; //TODO: Roles
     //-------------------------------------------------------------
 
-    protected User() {}
+    protected UserEntity() {}
 
-    public User(String username, String password, String email) {
+    public UserEntity(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
