@@ -11,7 +11,7 @@ public class ListEntity {
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    //@ManyToOne(fetch = FetchType.EAGER)
     private Long projectID; //TODO: id or Entity?
     //-------------------------------------------------------------
 

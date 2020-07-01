@@ -16,7 +16,7 @@ public class ProjectEntity {
     private String creationDate;
     private String updateDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    //@ManyToOne(fetch = FetchType.EAGER)
     private Long creatorID;
     //-------------------------------------------------------------
 
