@@ -11,7 +11,7 @@ import java.util.Set;
 public class UserEntity implements UserDetails {
     //-------------------------------------------------------------
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
@@ -31,7 +31,7 @@ public class UserEntity implements UserDetails {
         this.username = username;
         this.password = password;
         this.email = email;
-        active = false;
+        active = true;
     }
 
     public String getEmail() { return email; }
@@ -107,6 +107,6 @@ public class UserEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive();
+        return true;
     }
 }

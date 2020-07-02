@@ -2,6 +2,7 @@ package com.springapp.config;
 
 import com.springapp.entities.Roles;
 import com.springapp.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //-------------------------------------------------------------
+    @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
     //-------------------------------------------------------------
 
@@ -38,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(userDetailsServiceImpl);
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
         auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password("admin")
