@@ -15,6 +15,30 @@ public class IssueRepoService {
 
     //-------------------------------------------------------------
 
+    public boolean addIssue(IssueEntity issueEntity) {
+        //проверка при добавлении по названию задачи
+        IssueEntity issueEntityDB = issueRepository.findByName(issueEntity.getName());
+
+        if (issueEntityDB != null) {
+            return false;
+        }
+        if (issueEntity.getFolderId() == null) {
+            return false;
+        }
+
+        //сохранение
+        issueRepository.save(issueEntity);
+        return true;
+    }
+
+    public void editIssueById(Boolean done, String description, String name, Long id) {
+        IssueEntity issueToEdit = this.findById(id);
+        issueToEdit.setName(name);
+        issueToEdit.setDescription(description);
+        issueToEdit.setDone(done);
+        issueRepository.save(issueToEdit);
+    }
+
     //delete --------------------------------------------
     public void deleteById(Long id) {
         issueRepository.deleteById(id);
@@ -23,16 +47,6 @@ public class IssueRepoService {
     public void deleteAll() {
         issueRepository.deleteAll();
     }
-
-    /*
-    public void deleteAllByCollectionId(Long creatorId) {
-        List<IssueEntity> issueEntities = issueRepository.findAllByCollectionId(creatorId);
-        for (int i = 0; i < issueEntities.size(); i++) {
-            deleteById(issueEntities.get(i).getId());
-        }
-    }
-
-     */
 
     //save --------------------------------------------
     public void save(IssueEntity issueEntity ) {
@@ -48,11 +62,10 @@ public class IssueRepoService {
         return issueRepository.findByName(name);
     }
 
-    /*
-    public List<IssueEntity> findAllByCollectionId(Long collectionId) {
-        return issueRepository.findAllByCollectionId(collectionId);
+
+    public List<IssueEntity> findAllByFolderId(Long collectionId) {
+        return issueRepository.findAllByFolderId(collectionId);
     }
-     */
 
     public List<IssueEntity> findAll() {
         return issueRepository.findAll();

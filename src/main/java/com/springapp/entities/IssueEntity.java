@@ -1,6 +1,8 @@
 package com.springapp.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "issues_table")
@@ -10,9 +12,12 @@ public class IssueEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Название задачи не должно быть пустым.")
     private String name;
+
     private String description;
 
+    @NotNull(message = "Идентификатор области при создании задачи не должен быть пустым.")
     private Long folderId;
 
     private Boolean done;
@@ -22,10 +27,10 @@ public class IssueEntity {
 
     }
 
-    public IssueEntity(String name, String description, Long creatorId) {
+    public IssueEntity(String name, Long folderId) {
         this.name = name;
-        this.description = description;
-        this.folderId = creatorId;
+        this.description = "";
+        this.folderId = folderId;
         done = false;
     }
 
@@ -63,4 +68,11 @@ public class IssueEntity {
         this.done = done;
     }
 
+    public Long getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(Long folderId) {
+        this.folderId = folderId;
+    }
 }

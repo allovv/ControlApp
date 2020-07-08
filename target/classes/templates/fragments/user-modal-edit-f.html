@@ -20,14 +20,18 @@
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Название:</label>
                         <input type="text" class="" id="recipient-name" name="name"
-                               th:class="${editNameFolderError} ? 'form-control is-invalid' : form-control ">
+                               th:class="${editNameFolderError} OR ${editExistNameFolderError} ? 'form-control is-invalid' : form-control ">
                         <div class="invalid-feedback" th:if="${editNameFolderError}" th:text="${editNameFolderError}">
+                        </div>
+                        <div class="invalid-feedback" th:if="${editExistNameFolderError}" th:text="${editExistNameFolderError}">
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
+
                     <input type="number" th:value="${currentFolder.id}" name="folderId" class="d-none">
+
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                     <button type="submit" class="btn btn-primary">Редактировать</button>
                 </div>

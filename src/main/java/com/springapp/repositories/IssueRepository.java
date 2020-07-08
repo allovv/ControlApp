@@ -10,6 +10,7 @@ import java.util.List;
 public interface IssueRepository extends CrudRepository<IssueEntity, Long> {
 
     IssueEntity findByName(String name);
+    List<IssueEntity> findAllByFolderId(Long id);
     List<IssueEntity> findAll();
 
 }

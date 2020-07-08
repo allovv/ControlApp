@@ -14,6 +14,7 @@ public class FolderEntity {
 
     @NotBlank(message = "Название не может быть пустым.")
     private String name;
+
     @NotNull(message = "Идентификатор создателя не может быть пустым.")
     private Long creatorId;
 
