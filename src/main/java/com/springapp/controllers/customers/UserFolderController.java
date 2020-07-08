@@ -53,7 +53,7 @@ public class UserFolderController {
         } else {
             if (!folderRepoService.addFolder(folderEntity)) {
                 //redirect
-                redirectAttributes.addFlashAttribute("existAddFolderError", "Папка с таким названием уже создана!");
+                redirectAttributes.addFlashAttribute("existAddFolderError", "Идентификатор пользователя не указан!!");
 
                 return "redirect:/user";
             }
@@ -112,7 +112,7 @@ public class UserFolderController {
             return "redirect:/user/folders/" + folderId;
         }
 
-        if (folderRepoService.findByName(name) != null) {
+        if (folderRepoService.isExist(name, userEntity.getId())) {
             //redirect (flash аттрибут)
             redirectAttributes.addFlashAttribute("editExistNameFolderError", "Папка с таким названием уже существует");
 

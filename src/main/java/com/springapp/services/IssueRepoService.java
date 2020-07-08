@@ -16,12 +16,6 @@ public class IssueRepoService {
     //-------------------------------------------------------------
 
     public boolean addIssue(IssueEntity issueEntity) {
-        //проверка при добавлении по названию задачи
-        IssueEntity issueEntityDB = issueRepository.findByName(issueEntity.getName());
-
-        if (issueEntityDB != null) {
-            return false;
-        }
         if (issueEntity.getFolderId() == null) {
             return false;
         }
@@ -55,13 +49,8 @@ public class IssueRepoService {
 
     //find --------------------------------------------
     public IssueEntity findById(Long id) {
-        return issueRepository.findById(id).orElse(new IssueEntity(" ", " ", null));
+        return issueRepository.findById(id).orElse(new IssueEntity(" ", null));
     }
-
-    public IssueEntity findByName(String name) {
-        return issueRepository.findByName(name);
-    }
-
 
     public List<IssueEntity> findAllByFolderId(Long collectionId) {
         return issueRepository.findAllByFolderId(collectionId);

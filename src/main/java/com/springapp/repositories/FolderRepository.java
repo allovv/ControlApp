@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface FolderRepository extends CrudRepository<FolderEntity, Long> {
 
-    FolderEntity findByName(String name);
     List<FolderEntity> findAllByCreatorId(Long creatorId);
     List<FolderEntity> findAll();
 

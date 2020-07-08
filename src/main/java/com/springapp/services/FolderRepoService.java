@@ -19,19 +19,30 @@ public class FolderRepoService {
 
     //-------------------------------------------------------------
 
-    public boolean addFolder(FolderEntity folderEntity) {
-        //проверка при добавлении по названию проекта
-        FolderEntity folderEntityDB = folderRepository.findByName(folderEntity.getName());
-
-        if (folderEntityDB != null) {
-            return false;
-        }
-        if (folderEntity.getCreatorId() == null) {
+    public boolean addFolder(FolderEntity newFolder) {
+        if (newFolder.getCreatorId() == null) {
             return false;
         }
 
+        //проверка при добавлении по названию проекта (для проектов конкретного пользователя)
+        List<FolderEntity> folderEntities = folderRepository.findAllByCreatorId(newFolder.getCreatorId());
+
+        String initialName = newFolder.getName();
+        boolean again = true;
+        int digit = 1;
+        while (again) { //TODO: оптимизировать
+            again = false;
+            for (FolderEntity folder : folderEntities) {
+                if (folder.getName().equals(newFolder.getName())) {
+                    again = true;
+                    newFolder.setName(initialName + " " + String.valueOf(digit));
+                    digit++;
+                }
+            }
+        }
         //сохранение
-        folderRepository.save(folderEntity);
+        folderRepository.save(newFolder);
+
         return true;
     }
 
@@ -39,6 +50,16 @@ public class FolderRepoService {
         FolderEntity folderToEdit = this.findById(id);
         folderToEdit.setName(name);
         folderRepository.save(folderToEdit);
+    }
+
+    public boolean isExist(String name, Long creatorId) {
+        List<FolderEntity> folderEntities = folderRepository.findAllByCreatorId(creatorId);
+        for (FolderEntity folder : folderEntities) {
+            if (folder.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //delete --------------------------------------------
@@ -68,16 +89,13 @@ public class FolderRepoService {
     }
 
     //find --------------------------------------------
+
     public List<FolderEntity> findAllByCreatorId(Long creatorId) {
         return folderRepository.findAllByCreatorId(creatorId);
     }
 
     public FolderEntity findById(Long id) {
         return folderRepository.findById(id).orElse(new FolderEntity(" ", null));
-    }
-
-    public FolderEntity findByName(String name) {
-        return folderRepository.findByName(name);
     }
 
     public List<FolderEntity> findAll() {

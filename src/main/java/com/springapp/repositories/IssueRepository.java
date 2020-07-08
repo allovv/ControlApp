@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface IssueRepository extends CrudRepository<IssueEntity, Long> {
 
-    IssueEntity findByName(String name);
     List<IssueEntity> findAllByFolderId(Long id);
     List<IssueEntity> findAll();
 
