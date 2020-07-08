@@ -1,7 +1,6 @@
 package com.springapp.services;
 
 import com.springapp.entities.UserEntity;
-import com.springapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,18 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     //сервис для WebSecurityConfig
+
     //-------------------------------------------------------------
     @Autowired
-    UserRepository userRepository;
-    //-------------------------------------------------------------
+    UserRepoService userRepoService;
 
+    //-------------------------------------------------------------
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepoService.findByUsername(username);
 
         if (userEntity == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Пользователь не найден");
         }
+        userEntity.setOnline(true); //TODO: активность пользователя
 
         return userEntity;
     }

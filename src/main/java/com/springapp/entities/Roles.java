@@ -11,4 +11,12 @@ public enum Roles implements GrantedAuthority {
     public String getAuthority() {
         return name();
     }
+
+
+    @Override
+    public String toString() {
+        return String.format(
+                "%s",
+                name());
+    }
 }

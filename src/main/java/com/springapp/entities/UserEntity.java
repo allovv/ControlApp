@@ -3,6 +3,9 @@ package com.springapp.entities;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -14,25 +17,36 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min=3, max=20, message = "Длина имени пользователя должна быть от 2 до 20 символов.")
+    @NotBlank(message = "Имя польователя не может быть пустым.")
     private String username;
+
+    @Size(min=3, message = "Пароль должен содержать минимум 3 символа.")
+    @NotBlank(message = "Пароль не может быть пустым.")
     private String password;
+
+    @Email(message = "Email некорректен")
+    @NotBlank(message = "Email не может быть пустым")
     private String email;
-    private boolean active;
+
+    private boolean online;
 
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles; //TODO: Roles
-    //-------------------------------------------------------------
 
+    //-------------------------------------------------------------
     protected UserEntity() {}
 
     public UserEntity(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        active = true;
+        online = false;
     }
+
+    //-------------------------------------------------------------
 
     public String getEmail() { return email; }
 
@@ -62,12 +76,12 @@ public class UserEntity implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isOnline() {
+        return online;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public Set<Roles> getRoles() {
@@ -109,4 +123,5 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

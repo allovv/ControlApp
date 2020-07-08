@@ -1,0 +1,14 @@
+.bg-primary {
+    background-color: #6633FF !important;
+}
+.text-primary {
+    color: #6633FF !important;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #6633FF !important;
+    border-color: #6633FF !important;
+}
+.text-success {
+    color: #28a745!important;
+}

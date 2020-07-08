@@ -2,6 +2,7 @@ package com.springapp.config;
 
 import com.springapp.entities.Roles;
 import com.springapp.services.UserDetailsServiceImpl;
+import com.springapp.services.UserRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +10,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static com.springapp.controllers.common.RedirectController.SUCCESS_AUTH_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -18,37 +21,42 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //-------------------------------------------------------------
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
-    //-------------------------------------------------------------
+    @Autowired
+    private UserRepoService userRepoService;
 
+    //-------------------------------------------------------------
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/admin").hasRole(Roles.ADMIN.name())
-                    .antMatchers("/", "/registration").permitAll() //Доступ разрешен всем пользователей по пути...
+                    .antMatchers("/admin/**").hasAuthority(Roles.ADMIN.name())
+                    .antMatchers("/user/**").hasAuthority(Roles.USER.name())
+                    .antMatchers("/", "/registration", "/static/**").permitAll() //Доступ разрешен всем пользователям
                     .anyRequest().authenticated() //Все остальные страницы требуют аутентификации
                     .and()
                 .formLogin()
                     .loginPage("/login") //страница для входа в систему
                     .permitAll() //разрешаем всем доступ
-                    .defaultSuccessUrl("/projects", false) //Перенарпавление на главную страницу после успешного входа
+                    .defaultSuccessUrl(SUCCESS_AUTH_URL, true) //Перенарпавление после успешного входа
                     .and()
                 .logout()
                     .permitAll()
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/")
+                    .and()
+                .sessionManagement()
+                    .maximumSessions(1)
+                    .maxSessionsPreventsLogin(false); //Убивает прошлую сессию без предупреждения //TODO: потом изменить работу с сессиями
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        userRepoService.registerAdmin(); //TODO: добавление администратора в систему (могут быть проблемы с Validate)
+
         auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("admin")
-                .roles(Roles.ADMIN.name());
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }

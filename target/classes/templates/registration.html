@@ -3,31 +3,91 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <!-- main.css -->
+    <link href="/static/assets/css/main.css" rel="stylesheet"/>
 </head>
-<body class="text-center">
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-4 bg-primary border-bottom shadow-sm text-white">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Control</h5>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-20">
-                <form th:action="@{/registration}" method="post" class="form-signin"> <!-- Выражение th:action="@{/registration}" направляет форму к POST запросу -->
-                    <div><label> Username : <input type="text" name="username" class="form-control"/> </label></div><br>
+<body>
+    <!-- -------------------------------------------------------------------- -->
+    <nav class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-3 shadow align-items-center justify-content-center">
+        <div class="align-items-center justify-content-center m-auto">
+            <a class="navbar-brand mr-0" href="#">
+                <img src="/static/assets/img/control-logo.png" width="30" height="30" alt="">
+            </a>
+            <a class="navbar-brand m-auto" href="#">Control</a>
+        </div>
+    </nav>
+    <!-- -------------------------------------------------------------------- -->
 
-                    <div><label> Password : <input type="password" name="password" class="form-control"/> </label></div><br>
+    <div class="container mt-5">
 
-                    <div><label> Email : <input type="email" name="email" class="form-control"/> </label></div><br>
+        <div class="row justify-content-md-center">
+            <div class="col-5">
 
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
-                </form>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Регистрация</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- Выражение th:action="@{/login}" направляет форму к POST запросу -->
+                        <form th:action="@{/registration}" method="post" class="form-signin" th:object="${userEntity}">
+                            <div class="form-group">
+                                <label for="exampleInputUsername">Имя пользователя</label>
+                                <input type="username" class="form-control" id="exampleInputUsername" name="username"
+                                       th:classappend="${#fields.hasErrors('username')} ? is-invalid : ''">
+
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail">Email</label>
+                                <input type="email" class="form-control" id="exampleInputEmail" name="email"
+                                       th:classappend="${#fields.hasErrors('email')} OR ${userExistError} ? is-invalid : ''">
+
+                                <div class="invalid-feedback" th:if="${userExistError}" th:text="${userExistError}">
+                                </div>
+
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Пароль</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" aria-describedby="passwordHelp1" name="password"
+                                       th:classappend="${#fields.hasErrors('password')} OR ${confirmPasswordError} ? is-invalid : ''">
+
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword2">Подтверждение пароля</label>
+                                <input type="password" class="form-control" id="exampleInputPassword2" aria-describedby="passwordHelp" name="confirmPassword"
+                                       th:classappend="${passwordsEqualsError} OR ${confirmPasswordError} ? is-invalid : ''">
+
+                                <div class="invalid-feedback" th:if="${confirmPasswordError}" th:text="${confirmPasswordError}">
+                                </div>
+
+                                <div class="invalid-feedback" th:if="${passwordsEqualsError}" th:text="${passwordsEqualsError}">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-lg btn-primary btn-block">Зарегистрироваться</button>
+                        </form>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
-    <div th:if="${errorMessage}" th:text="${errorMessage}">
-    </div>
+
 </body>
 </html>
