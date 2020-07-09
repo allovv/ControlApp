@@ -25,12 +25,16 @@ public class IssueRepoService {
         return true;
     }
 
-    public void editIssueById(Boolean done, String description, String name, Long id) {
+    public boolean editIssueById(IssueEntity editedIssue, Long id) {
+        if (id == null) {
+            return false;
+        }
         IssueEntity issueToEdit = this.findById(id);
-        issueToEdit.setName(name);
-        issueToEdit.setDescription(description);
-        issueToEdit.setDone(done);
+        issueToEdit.setName(editedIssue.getName());
+        issueToEdit.setDescription(editedIssue.getDescription());
+        issueToEdit.setDone(editedIssue.getDone());
         issueRepository.save(issueToEdit);
+        return true;
     }
 
     //delete --------------------------------------------

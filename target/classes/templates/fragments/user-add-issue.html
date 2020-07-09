@@ -1,0 +1,59 @@
+<!-- -------------------------------------------------------------------- -->
+<!-- (AddIssue) будет добавлено на страницу, только если передан currentFolder -->
+<div
+        th:fragment="addIssue" th:if="${currentFolder}"
+        class="container-fluid pl-0"
+>
+    <p>
+        <a class="btn btn-primary" id="linkAddIssueCollapse" data-toggle="collapse" href="#addIssueCollapse" role="button" aria-expanded="false" aria-controls="addIssueCollapse">
+            Добавить задачу
+        </a>
+    </p>
+
+    <div class="collapse shadow-sm rounded" id="addIssueCollapse">
+        <div class="card card-body">
+
+            <!-- form to add issue -------------------------------------- -->
+            <form th:action="@{'/user/folder/issue'}" th:object="${currentFolder}" method="post">
+                <div class="container-fluid">
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <!-- name -->
+                            <div class="form-group">
+                                <input name="name" type="text" id="addIssueName" placeholder="Новая задача"
+                                       th:class="${nameAddIssueError} ? 'form-control is-invalid' : 'form-control border-white'">
+                                <div class="invalid-feedback" th:if="${nameAddIssueError}" th:text="${nameAddIssueError}">
+                                </div>
+                            </div>
+                            <!-- description -->
+                            <div class="form-group">
+                                <textarea name="description" type="text" class="form-control border-white" id="description-issue" rows="2" placeholder="Описание"
+                                          th:class="${descriptionAddIssueError} ? 'form-control is-invalid' : 'form-control border-white'"></textarea>
+                                <div class="invalid-feedback" th:if="${descriptionAddIssueError}" th:text="${descriptionAddIssueError}">
+                                </div>
+                            </div>
+                            <!-- currentFolder.id -->
+                            <div class="form-group">
+                                <input type="number" class="d-none" name="folderId"
+                                       th:value="${currentFolder.id}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#addIssueCollapse">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Создать</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <!-- form to add issue -------------------------------------- -->
+
+        </div>
+    </div>
+</div>

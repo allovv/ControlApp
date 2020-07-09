@@ -1,5 +1,7 @@
 package com.springapp.controllers.customers;
 
+import com.springapp.entities.FolderEntity;
+import com.springapp.entities.IssueEntity;
 import com.springapp.entities.UserEntity;
 import com.springapp.services.CollectionRepoService;
 import com.springapp.services.FolderRepoService;
@@ -8,14 +10,15 @@ import com.springapp.services.UserRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.springapp.controllers.ControllersTools.getUserSecurity;
 
 @Controller
-public class AdminController { //TODO: корректировать
+public class AdminController {
     //-------------------------------------------------------------
     @Autowired
     UserRepoService userRepoService;
@@ -27,39 +30,39 @@ public class AdminController { //TODO: корректировать
     IssueRepoService issueRepoService;
 
     //-------------------------------------------------------------
-    @GetMapping("/admin/users")
+    @GetMapping("/admin")
     public String adminUsers(Map<String, Object> model) {
         UserEntity userEntity = getUserSecurity();
 
+        //TODO: можно оптимизировать
         //Add attributes
-        model.put("username", userEntity.getUsername());
-        model.put("users", userRepoService.findAll());
-        model.put("folders", folderRepoService.findAll());
-        model.put("collections", collectionRepoService.findAll());
-        model.put("issues", issueRepoService.findAll());
+        List<UserEntity> userEntities = userRepoService.findAll();
+        model.put("userEntity", userEntity);
+        model.put("users", userEntities);
+        model.put("numUsers", userEntities.size());
 
-        return "adminUsers";
+        List<FolderEntity> folderEntities = folderRepoService.findAll();
+        model.put("numFolders", folderEntities.size());
+
+        HashMap<String, Long> numFoldersMap = new HashMap<>();
+        for (UserEntity user : userEntities) {
+            numFoldersMap.put(user.getUsername(), (long) folderRepoService.findAllByCreatorId(user.getId()).size());
+        }
+        model.put("numFoldersMap", numFoldersMap);
+
+        List<IssueEntity> issueEntities = issueRepoService.findAll();
+        model.put("numIssues", issueEntities.size());
+        HashMap<String, Long> numIssuesMap = new HashMap<>();
+        for (UserEntity user : userEntities) {
+            Long counter = 0L;
+            for (FolderEntity folderEntity : folderRepoService.findAllByCreatorId(user.getId())) {
+                counter += issueRepoService.findAllByFolderId(folderEntity.getId()).size();
+            }
+            numIssuesMap.put(user.getUsername(), counter);
+        }
+        model.put("numIssuesMap", numIssuesMap);
+
+        return "admin";
     }
 
-    @GetMapping("/admin/users/{userId}")
-    public String editUser(@PathVariable Long userId, Map<String, Object> model) {
-        UserEntity userEntity = userRepoService.findById(userId);
-        model.put("userToEdit", userEntity);
-        return "adminUserEdit";
-    }
-
-    //-------------------------------------------------------------
-    @GetMapping("/admin/folders")
-    public String adminFolders(Map<String, Object> model) {
-        UserEntity userEntity = getUserSecurity();
-
-        //Add attributes
-        model.put("username", userEntity.getUsername());
-        model.put("users", userRepoService.findAll());
-        model.put("folders", folderRepoService.findAll());
-        model.put("collections", collectionRepoService.findAll());
-        model.put("issues", issueRepoService.findAll());
-
-        return "adminFolders";
-    }
 }

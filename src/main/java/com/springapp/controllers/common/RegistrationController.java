@@ -20,7 +20,6 @@ public class RegistrationController {
     private UserRepoService userRepoService;
 
     //-------------------------------------------------------------
-
     /**
      * Получение страницы регистрации
      * GET
@@ -30,14 +29,14 @@ public class RegistrationController {
         return "registration";
     }
 
+    //-------------------------------------------------------------
     /**
      * Регистрирование пользователя
      * POST
      */
     @PostMapping("/registration")
     public String addUser(@RequestParam String confirmPassword,
-                          @ModelAttribute @Valid UserEntity userEntity,
-                          BindingResult bindingResult,
+                          @ModelAttribute @Valid UserEntity userEntity, BindingResult bindingResult,
                           Model model) {
         if (confirmPassword.isEmpty()) {
             model.addAttribute("confirmPasswordError", "Подтверждающий пароль не должен быть пустым.");
@@ -52,7 +51,7 @@ public class RegistrationController {
 
                 return "redirect:/login";
             } else {
-                model.addAttribute("userExistError", "Пользователь с таким email уже зарегистрирован!");
+                model.addAttribute("userExistError", "Пользователь с таким username уже зарегистрирован!");
 
                 return "registration";
             }

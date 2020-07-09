@@ -1,5 +1,5 @@
 <!-- -------------------------------------------------------------------- -->
-<!-- добавится на страницу, только если передан currentFolder -->
+<!-- (EditFolder) будет добавлено на страницу, только если передан currentFolder -->
 <div
         th:fragment="editFolderModal" th:if="${currentFolder}"
         class="modal fade" id="editFolderModal" tabindex="-1" role="dialog" aria-labelledby="editFolderModalLabel" aria-hidden="true"
@@ -26,12 +26,12 @@
                         <div class="invalid-feedback" th:if="${editExistNameFolderError}" th:text="${editExistNameFolderError}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <input type="hidden" th:value="${currentFolder.id}" name="folderId">
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-
-                    <input type="number" th:value="${currentFolder.id}" name="folderId" class="d-none">
-
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                     <button type="submit" class="btn btn-primary">Редактировать</button>
                 </div>

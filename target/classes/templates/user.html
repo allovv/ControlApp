@@ -18,119 +18,66 @@
     <div th:insert="fragments/user-nav :: navUser" th:object="${userEntity}"></div>
 
     <!-- -------------------------------------------------------------------- -->
+
     <div class="container-fluid">
         <div class="row">
 
-            <!-- SIDEBAR -------------------------------------------------------------------- -->
+            <!-- SIDEBAR ------------------------------------------------------------------------------- -->
+
             <div class="col-3 bg-light sidebar" style="height:100vh">
-                <div class="container mt-5">
 
-                    <div class="text-dark container mt-2 p-0">
+                <!-- ==================================================================== -->
+                <th:block th:insert="fragments/user-sidebar :: sidebarUser"></th:block>
+                <!-- ==================================================================== -->
 
-                        <div class="container-fluid ml-0 mb-3 pl-0">
-                            <form class="form-inline">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Поиск</button>
-                            </form>
-                        </div>
+                <!-- ==================================================================== -->
+                <div th:insert="fragments/user-modal-add-f :: addFolderModal"></div>
+                <th:block th:if="${nameAddFolderError}"> <!-- Скрипт в случае ошибки-->
+                    <script>
+                        $(document).ready(function() {
+                        $("#addFolderModal").modal('show');
+                        });
+                    </script>
+                </th:block>
+                <!-- ==================================================================== -->
 
-                        <hr> <!-- -------------------------- разделитель -------------------------- -->
-
-                        <div class="container-fluid ml-0 mb-3 pl-0 rounded">
-                            <div class="container-fluid ml-0 mb-3 pl-0">
-                                <div class="dropdown show">
-                                    <a class="h5 text-primary" href="#" data-toggle="modal" data-target="#addFolderModal">
-                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-                                            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        </svg>
-                                        Добавить новую область
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr> <!-- -------------------------- разделитель -------------------------- -->
-
-                        <!-- папки пользователя пользователя -->
-                        <th:block th:each ="folder : ${folders}">
-                            <div class="container-fluid ml-0 mb-3 pl-0">
-                                <a class="h5 text-dark" href="#" th:href="@{'/user/folders/' + ${folder.id}}">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-seam" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
-                                    </svg>
-                                    <span th:utext="${folder.name}"></span>
-                                </a>
-                            </div>
-                        </th:block>
-
-                        <hr> <!-- -------------------------- разделитель -------------------------- -->
-
-                    </div>
-
-                </div>
             </div>
-            <!-- -------------------------------------------------------------------- -->
 
-            <!-- -------------------------------------------------------------------- -->
+            <!-- SIDEBAR ------------------------------------------------------------------------------- -->
+
+            <!-- CONTENT ------------------------------------------------------------------------------- -->
             <div class="col-9">
 
-
-                <!-- -------------------------------------------------------------------- -->
-
-                <div th:insert="fragments/user-modal-add-f :: addFolderModal"></div>
-
-                <!-- Скрипт, вызывающий модальное окно после загрузки страницы в случае ошибки -->
-                <th:block th:if="${existAddFolderError}">
-                    <script>
-                        $(document).ready(function() {
-                        $("#addFolderModal").modal('show');
-                        });
-                    </script>
-                </th:block>
-
-                <th:block th:if="${nameAddFolderError}">
-                    <script>
-                        $(document).ready(function() {
-                        $("#addFolderModal").modal('show');
-                        });
-                    </script>
-                </th:block>
-
-                <!-- -------------------------------------------------------------------- -->
-
-                <div th:insert="fragments/user-modal-delete-f :: deleteFolderModal"></div>
-
-                <!-- -------------------------------------------------------------------- -->
-
-                <div th:insert="fragments/user-modal-edit-f :: editFolderModal"></div>
-
-                <!-- Скрипт, вызывающий модальное окно после загрузки страницы в случае ошибки -->
-                <th:block th:if="${editNameFolderError}">
-                    <script>
-                        $(document).ready(function() {
-                        $("#editFolderModal").modal('show');
-                        });
-                    </script>
-                </th:block>
-                <th:block th:if="${editExistNameFolderError}">
-                    <script>
-                        $(document).ready(function() {
-                        $("#editFolderModal").modal('show');
-                        });
-                    </script>
-                </th:block>
-
-                <!-- -------------------------------------------------------------------- -->
-
                 <th:block th:if="${currentFolder}">
+
+                    <!-- ==================================================================== -->
+                    <div th:insert="fragments/user-modal-delete-f :: deleteFolderModal"></div>
+                    <!-- ==================================================================== -->
+
+                    <!-- ==================================================================== -->
+                    <div th:insert="fragments/user-modal-edit-f :: editFolderModal"></div>
+                    <th:block th:if="${editNameFolderError}">  <!-- Скрипт в случае ошибки-->
+                        <script>
+                        $(document).ready(function() {
+                        $("#editFolderModal").modal('show');
+                        });
+                    </script>
+                    </th:block>
+                    <th:block th:if="${editExistNameFolderError}">  <!-- Скрипт в случае ошибки-->
+                        <script>
+                        $(document).ready(function() {
+                        $("#editFolderModal").modal('show');
+                        });
+                    </script>
+                    </th:block>
+                    <!-- ==================================================================== -->
 
                     <div class="row justify-content-center">
                         <div class="col-9 mt-5">
 
                             <div class="container-fluid mt-5">
-                                <!-- шапка папки -->
+
+                                <!-- шапка папки ---------------------------------->
                                 <div class="container-fluid">
                                     <div class="row justify-content-between">
 
@@ -144,16 +91,12 @@
                                         </div>
 
                                         <div class="col-auto">
-                                            <div class="mr-3 d-inline">
-                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addIssueModal">Добавить задачу</button>
-                                            </div>
-
-                                            <a class="h2 dropdown-toggle text-dark" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration:none">
+                                            <a class="h2 dropdown-toggle text-dark" href="#" role="button" id="dropdownMenuFolder" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration:none">
                                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                                                 </svg>
                                             </a>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuFolder">
                                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteFolderModal">Удалить</a>
                                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editFolderModal">Переименовать</a>
                                             </div>
@@ -162,50 +105,101 @@
                                     </div>
                                 </div>
 
-                                <!-- контент папки -->
+                                <hr> <!-- разделитель -->
+
+                                <!-- контент папки ---------------------------------->
                                 <th:block th:if="${issues}">
 
 
                                     <!-- -------------------------------------------------------------------- -->
+                                    <div class="container-fluid mt-5">
 
-                                    <div th:insert="fragments/user-modal-add-issue :: addIssueModal"></div>
-
-                                    <!-- Скрипт, вызывающий модальное окно после загрузки страницы в случае ошибки -->
-                                    <th:block th:if="${descriptionAddIssueError}">
-                                        <script>
-                                            $(document).ready(function() {
-                                            $("#addIssueModal").modal('show');
-                                            });
-                                        </script>
-                                    </th:block>
-                                    <th:block th:if="${existAddIssueError}">
-                                        <script>
-                                            $(document).ready(function() {
-                                            $("#addIssueModal").modal('show');
-                                            });
-                                        </script>
-                                    </th:block>
-                                    <th:block th:if="${nameAddIssueError}">
-                                        <script>
-                                            $(document).ready(function() {
-                                            $("#addIssueModal").modal('show');
-                                            });
-                                        </script>
-                                    </th:block>
-
-                                    <!-- -------------------------------------------------------------------- -->
-
-
-                                    <div class="container mt-5">
-                                        <!-- задачи пользователя -->
-                                        <th:block th:each ="issue : ${issues}">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                                                <label class="form-check-label" for="autoSizingCheck2"
-                                                       th:text="${issue.name}">
-                                                </label>
-                                            </div>
+                                        <!-- ==================================================================== -->
+                                        <div th:insert="fragments/user-add-issue :: addIssue"></div>
+                                        <th:block th:if="${nameAddIssueError}">
+                                            <script>
+                                                $(document).ready(function() {
+                                                     $("#linkAddIssueCollapse").click();
+                                                });
+                                            </script>
                                         </th:block>
+                                        <th:block th:if="${descriptionAddIssueError}">
+                                            <script>
+                                                $(document).ready(function() {
+                                                     $("#linkAddIssueCollapse").click();
+                                                });
+                                            </script>
+                                        </th:block>
+                                        <!-- ==================================================================== -->
+
+                                        <hr> <!-- разделитель -->
+
+                                        <!-- задачи пользователя -------------------------------------- -->
+                                        <th:block th:each ="issue : ${issues}">
+                                            <div class="container-fluid mt-3">
+                                                <div class="row">
+                                                    <div class="form-check col-auto mr-auto">
+                                                        <form th:action="'/user/folder/' + ${folderId} + '/issue'" method="post" th:id="${issue.id} + 'Form'">
+
+                                                            <input type="hidden" name="issueId" th:value="${issue.id}">
+                                                            <input class="form-check-input"
+                                                                   type="checkbox"
+                                                                   th:id="${issue.id} + 'Check'"
+                                                                   th:checked="${issue.done} ? 'checked'"
+                                                                   disabled>
+
+                                                            <p th:if="${issue.done}" class="h6"><s th:text="${issue.name}"></s></p>
+                                                            <p th:unless="${issue.done}" th:text="${issue.name}" class="h6"></p>
+
+                                                            <div class="container-fluid">
+                                                                <p th:text="${issue.description}"></p>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <div class="row">
+                                                            <!-- change state issue -->
+                                                            <div class="col p-2">
+                                                                <form th:action="@{'/user/folder/issue/changeState'}" method="post">
+                                                                    <button type="submit" class="btn btn-outline-success">
+                                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-repeat" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                            <path fill-rule="evenodd" d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z"/>
+                                                                            <path fill-rule="evenodd" d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z"/>
+                                                                        </svg>
+                                                                        <input type="hidden" name="folderId" th:value="${currentFolder.id}">
+                                                                        <input type="hidden" name="issueId" th:value="${issue.id}">
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                            <!-- edit issue -->
+                                                            <div class="col p-2">
+                                                                <form th:action="@{'/user/' + ${currentFolder.id} + '/' + ${issue.id} + '/edit'}" method="get">
+                                                                    <button type="submit" class="btn btn-outline-warning">
+                                                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-nut" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                            <path fill-rule="evenodd" d="M11.42 2H4.58L1.152 8l3.428 6h6.84l3.428-6-3.428-6zM4.58 1a1 1 0 0 0-.868.504l-3.429 6a1 1 0 0 0 0 .992l3.429 6A1 1 0 0 0 4.58 15h6.84a1 1 0 0 0 .868-.504l3.428-6a1 1 0 0 0 0-.992l-3.428-6A1 1 0 0 0 11.42 1H4.58z"/>
+                                                                            <path fill-rule="evenodd" d="M6.848 5.933a2.5 2.5 0 1 0 2.5 4.33 2.5 2.5 0 0 0-2.5-4.33zM5.067 9.848a3.5 3.5 0 1 1 6.062-3.5 3.5 3.5 0 0 1-6.062 3.5z"/>
+                                                                        </svg>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                            <!-- delete issue -->
+                                                            <div class="col p-2">
+                                                                <form th:action="@{/user/folder/issue/delete}" method="post">
+                                                                    <input type="hidden" name="folderId" th:value="${currentFolder.id}">
+                                                                    <input type="hidden" name="issueId" th:value="${issue.id}">
+                                                                    <button type="submit" class="btn btn-outline-danger">×</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr> <!-- разделитель -->
+
+                                        </th:block>
+                                        <!-- ---------------------------------------------------------- -->
 
                                     </div>
                                 </th:block>
@@ -217,9 +211,9 @@
                 </th:block>
 
             </div>
-            <!-- -------------------------------------------------------------------- -->
+            <!-- CONTENT ------------------------------------------------------------------------------- -->
         </div>
     </div>
-    <!-- -------------------------------------------------------------------- -->
+
 </body>
 </html>

@@ -12,3 +12,10 @@
 .text-success {
     color: #28a745!important;
 }
+
+.btn-outline-primary {
+    color: #6633FF !important;
+    background-color: transparent;
+    background-image: none;
+    border-color: #6633FF !important;
+}

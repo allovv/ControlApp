@@ -16,7 +16,6 @@ public class HomeController {
     UserRepoService userRepoService;
 
     //-------------------------------------------------------------
-
     /**
      * Обработка страницы HOME
      * GET

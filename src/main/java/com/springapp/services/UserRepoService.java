@@ -24,8 +24,8 @@ public class UserRepoService {
     //-------------------------------------------------------------
 
     public boolean registerUser(UserEntity userEntity) {
-        //проверка при регистрации по email TODO: регистрация по email
-        UserEntity userEntityDB = userRepository.findByEmail(userEntity.getEmail());
+        //проверка при регистрации по email TODO: регистрация по username
+        UserEntity userEntityDB = userRepository.findByUsername(userEntity.getUsername());
 
         if (userEntityDB != null) {
             return false;

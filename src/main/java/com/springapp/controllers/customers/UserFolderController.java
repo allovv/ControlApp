@@ -33,12 +33,29 @@ public class UserFolderController {
 
     //-------------------------------------------------------------
     /**
+     * Вывод информации по конкретной папке
+     * GET
+     */
+    @GetMapping("/user/folders/{folderId}")
+    public String getFolder(@AuthenticationPrincipal UserEntity userEntity,
+                            @PathVariable("folderId") Long folderId,
+                            Map<String, Object> model){
+        //Add attributes
+        model.put("userEntity", userEntity);
+        model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
+        model.put("currentFolder", folderRepoService.findById(folderId));
+        model.put("issues", issueRepoService.findAllByFolderId(folderId));
+
+        return "user";
+    }
+
+    //-------------------------------------------------------------
+    /**
      * Добавление папки
      * POST
      */
     @PostMapping("/user/folders")
-    public String addFolder(@ModelAttribute @Valid FolderEntity folderEntity,
-                            BindingResult bindingResult,
+    public String addFolder(@ModelAttribute @Valid FolderEntity folderEntity, BindingResult bindingResult,
                             HttpSession httpSession,
                             RedirectAttributes redirectAttributes,
                             Model model){
@@ -63,25 +80,6 @@ public class UserFolderController {
         }
     }
 
-    //-------------------------------------------------------------
-    /**
-     * Вывод информации по конкретной папке
-     * GET
-     */
-    @GetMapping("/user/folders/{folderId}")
-    public String getFolder(@AuthenticationPrincipal UserEntity userEntity,
-                            @PathVariable("folderId") Long folderId,
-                            Map<String, Object> model){
-        //Add attributes
-        model.put("userEntity", userEntity);
-        model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
-        model.put("currentFolder", folderRepoService.findById(folderId));
-        model.put("issues", issueRepoService.findAllByFolderId(folderId));
-
-        return "user";
-    }
-
-    //-------------------------------------------------------------
     /**
      * Удаление папки
      * POST
@@ -93,7 +91,6 @@ public class UserFolderController {
         return "redirect:/user";
     }
 
-    //-------------------------------------------------------------
     /**
      * Редактирование папки
      * POST

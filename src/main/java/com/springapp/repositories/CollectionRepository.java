@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface CollectionRepository extends CrudRepository<CollectionEntity, Long> {
 
-    CollectionEntity findByName(String name);
     List<CollectionEntity> findAll();
 
 }

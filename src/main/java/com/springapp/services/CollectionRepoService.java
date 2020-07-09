@@ -48,10 +48,6 @@ public class CollectionRepoService {
         return collectionRepository.findById(id).orElse(new CollectionEntity(" ", " ", " ", null));
     }
 
-    public CollectionEntity findByName(String name) {
-        return collectionRepository.findByName(name);
-    }
-
     /*
     public List<CollectionEntity> findAllByFolderId(Long folderId) {
         return collectionRepository.findAllByFolderId(folderId);

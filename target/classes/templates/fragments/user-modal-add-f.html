@@ -19,17 +19,14 @@
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Название:</label>
                         <input type="text" class="" id="recipient-name" name="name"
-                               th:class="${existAddFolderError} OR ${nameAddFolderError} ? 'form-control is-invalid' : form-control ">
-
-                        <div class="invalid-feedback" th:if="${existAddFolderError}" th:text="${existAddFolderError}">
-                        </div>
+                               th:class="${nameAddFolderError} ? 'form-control is-invalid' : form-control ">
 
                         <div class="invalid-feedback" th:if="${nameAddFolderError}" th:text="${nameAddFolderError}">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <input type="number" class="d-none" name="creatorId"
+                        <input type="hidden" name="creatorId"
                                th:value="${userEntity.id}">
                     </div>
                 </div>

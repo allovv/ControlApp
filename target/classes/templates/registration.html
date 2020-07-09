@@ -40,7 +40,10 @@
                             <div class="form-group">
                                 <label for="exampleInputUsername">Имя пользователя</label>
                                 <input type="username" class="form-control" id="exampleInputUsername" name="username"
-                                       th:classappend="${#fields.hasErrors('username')} ? is-invalid : ''">
+                                       th:classappend="${#fields.hasErrors('username')} OR ${userExistError}  ? is-invalid : ''">
+
+                                <div class="invalid-feedback" th:if="${userExistError}" th:text="${userExistError}">
+                                </div>
 
                                 <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
                                 </div>
@@ -49,12 +52,9 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail">Email</label>
                                 <input type="email" class="form-control" id="exampleInputEmail" name="email"
-                                       th:classappend="${#fields.hasErrors('email')} OR ${userExistError} ? is-invalid : ''">
+                                       th:classappend="${#fields.hasErrors('email')} ? is-invalid : ''">
 
-                                <div class="invalid-feedback" th:if="${userExistError}" th:text="${userExistError}">
-                                </div>
-
-                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                                 </div>
                             </div>
 
