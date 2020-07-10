@@ -11,54 +11,24 @@
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:development" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:improve-issues" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92d20aea-9177-4be3-8481-cb0197ec431b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="92d20aea-9177-4be3-8481-cb0197ec431b" name="Default Changelist" comment="Added task location selection.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.mv.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/common/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/common/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/common/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/common/RegistrationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserFolderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserFolderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/data.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/entities/IssueEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/entities/IssueEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/repositories/CollectionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/repositories/CollectionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/services/CollectionRepoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/services/CollectionRepoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/services/IssueRepoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/services/IssueRepoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springapp/services/UserRepoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/services/UserRepoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/assets/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/assets/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/adminFolders.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/adminUserEdit.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/adminUsers.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-add-issue.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-add-issue.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-add-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-add-f.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-add-issue.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-delete-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-delete-f.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-edit-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-modal-edit-f.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/controllers/common/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/controllers/common/HomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/controllers/common/RegistrationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/controllers/common/RegistrationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/controllers/customers/UserFolderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/controllers/customers/UserFolderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/controllers/customers/UserIssueController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/controllers/customers/UserIssueController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/entities/IssueEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/entities/IssueEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/repositories/CollectionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/repositories/CollectionRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/services/CollectionRepoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/services/CollectionRepoService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/services/FolderRepoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/services/FolderRepoService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/services/IssueRepoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/services/IssueRepoService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springapp/services/UserRepoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springapp/services/UserRepoService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/assets/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/assets/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-add-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-add-f.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-add-issue.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-delete-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-delete-f.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-edit-f.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragments/user-modal-edit-f.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-nav.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/user-sidebar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user-edit-issue.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/user-edit-issue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/user-edit-issue.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/user-edit-issue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +47,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="development" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1diiXoCs5I8Hr7qz2qSpYYBpGU8" />
@@ -165,7 +140,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="development" />
+                        <option value="improve-issues" />
                       </list>
                     </value>
                   </entry>
@@ -177,6 +152,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added task location selection." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added task location selection." />
   </component>
   <component name="WindowStateProjectService">
     <state x="464" y="32" key="#Application" timestamp="1594051316665">
@@ -235,46 +214,54 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="524" y="115" key="#xdebugger.evaluate/0.0.1536.824@0.0.1536.824" timestamp="1593510449238" />
-    <state width="468" height="466" key="DebuggerActiveHint" timestamp="1594309346671">
+    <state x="228" y="34" width="1090" height="677" key="CommitChangelistDialog2" timestamp="1594362290197">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="468" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1594309346671" />
+    <state x="228" y="34" width="1090" height="677" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1594362290197" />
+    <state width="468" height="466" key="DebuggerActiveHint" timestamp="1594364081826">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="468" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1594364081826" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1594313508663">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1594313508663" />
     <state x="549" y="170" key="FileChooserDialogImpl" timestamp="1594051074344">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1594051074344" />
-    <state width="1493" height="128" key="GridCell.Tab.0.bottom" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.0.bottom" timestamp="1594364122197">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="128" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="128" key="GridCell.Tab.0.center" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1594364122197" />
+    <state width="1493" height="268" key="GridCell.Tab.0.center" timestamp="1594364122197">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="128" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="128" key="GridCell.Tab.0.left" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1594364122197" />
+    <state width="1493" height="268" key="GridCell.Tab.0.left" timestamp="1594364122197">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="128" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="128" key="GridCell.Tab.0.right" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1594364122197" />
+    <state width="1493" height="268" key="GridCell.Tab.0.right" timestamp="1594364122197">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="128" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="250" key="GridCell.Tab.1.bottom" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1594364122197" />
+    <state width="1493" height="268" key="GridCell.Tab.1.bottom" timestamp="1594364041033">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="250" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="250" key="GridCell.Tab.1.center" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1594364041033" />
+    <state width="1493" height="268" key="GridCell.Tab.1.center" timestamp="1594364041033">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="250" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="250" key="GridCell.Tab.1.left" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1594364041033" />
+    <state width="1493" height="268" key="GridCell.Tab.1.left" timestamp="1594364041033">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="250" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
-    <state width="1493" height="250" key="GridCell.Tab.1.right" timestamp="1594312850661">
+    <state width="1493" height="268" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1594364041033" />
+    <state width="1493" height="268" key="GridCell.Tab.1.right" timestamp="1594364041033">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="250" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1594312850661" />
+    <state width="1493" height="268" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1594364041033" />
     <state x="33" y="31" key="SettingsEditor" timestamp="1594050670039">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -295,6 +282,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="478" y="116" width="579" height="592" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1594153082787" />
+    <state x="481" y="125" key="git4idea.branch.GitSmartOperationDialog" timestamp="1594359055442">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="481" y="125" key="git4idea.branch.GitSmartOperationDialog/0.0.1536.824@0.0.1536.824" timestamp="1594359055442" />
     <state x="209" y="73" key="new project wizard" timestamp="1593090434497">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -323,37 +314,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java</url>
-          <line>61</line>
+          <line>60</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java</url>
-          <line>113</line>
+          <line>112</line>
           <option name="timeStamp" value="78" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/services/IssueRepoService.java</url>
-          <line>31</line>
+          <line>30</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java</url>
-          <line>92</line>
+          <line>91</line>
           <option name="timeStamp" value="83" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java</url>
-          <line>44</line>
+          <line>43</line>
           <option name="timeStamp" value="86" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java</url>
-          <line>123</line>
+          <line>122</line>
           <option name="timeStamp" value="89" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/springapp/controllers/customers/UserIssueController.java</url>
-          <line>69</line>
+          <line>68</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
       </breakpoints>

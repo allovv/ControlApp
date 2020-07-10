@@ -84,6 +84,7 @@
                                             <!-- форма редактирование задачи -->
                                             <form th:action="@{/user/folder/issue/edit}" method="post">
                                                 <div class="container-fluid">
+                                                    <!-- name -->
                                                     <div class="form-group">
                                                         <label>Название задачи</label>
                                                         <input name="name" type="text" class="form-control" th:value="${currentIssue.name}"
@@ -92,6 +93,7 @@
                                                         <div class="invalid-feedback" th:if="${nameEditIssueError}" th:text="${nameEditIssueError}">
                                                         </div>
                                                     </div>
+                                                    <!-- description -->
                                                     <div class="form-group">
                                                         <label>Описание</label>
                                                         <input name="description" type="text" class="form-control" aria-describedby="issueDescription" th:value="${currentIssue.description}"
@@ -101,6 +103,7 @@
                                                         <div class="invalid-feedback" th:if="${descriptionEditIssueError}" th:text="${descriptionEditIssueError}">
                                                         </div>
                                                     </div>
+                                                    <!-- state -->
                                                     <div class="form-group">
                                                         <label>Статус</label>
                                                         <div class="form-check container-fluid">
@@ -110,14 +113,29 @@
                                                             <label type="hidden" class="form-check-label"></label>
                                                         </div>
                                                     </div>
+                                                    <!-- location -->
                                                     <div class="form-group">
-                                                        <input name="issueId" type="hidden" class="form-check-input" th:value="${currentIssue.id}">
-                                                        <input name="folderId" type="hidden" class="form-check-input" th:value="${folderId}">
+                                                        <select class="form-control" placeholder="Расположение" name="folderId">
+                                                            <option th:each ="folder : ${folders}"
+                                                                    th:text="${folder.name}"
+                                                                    th:value="${folder.id}"
+                                                                    th:selected="${folder.id == fromFolderId}">
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- fromFolderId -->
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="fromFolderId"
+                                                               th:value="${fromFolderId}">
+                                                    </div>
+                                                    <!-- currentIssue.id -->
+                                                    <div class="form-group">
+                                                        <input name="currentIssueId" type="hidden" class="form-check-input" th:value="${currentIssue.id}">
                                                     </div>
                                                 </div>
                                                 <div class="container-fluid">
                                                     <button type="submit" class="btn btn-primary">Сохранить</button>
-                                                    <a class="btn btn-outline-dark" th:href="'/user/folders/' +${folderId}" role="button">Назад</a>
+                                                    <a class="btn btn-outline-dark" th:href="'/user/folders/' +${fromFolderId}" role="button">Назад</a>
                                                 </div>
                                             </form>
 

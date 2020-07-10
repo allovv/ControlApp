@@ -19,7 +19,6 @@ public class IssueRepoService {
         if (issueEntity.getFolderId() == null) {
             return false;
         }
-
         //сохранение
         issueRepository.save(issueEntity);
         return true;
@@ -33,6 +32,7 @@ public class IssueRepoService {
         issueToEdit.setName(editedIssue.getName());
         issueToEdit.setDescription(editedIssue.getDescription());
         issueToEdit.setDone(editedIssue.getDone());
+        issueToEdit.setFolderId(editedIssue.getFolderId());
         issueRepository.save(issueToEdit);
         return true;
     }

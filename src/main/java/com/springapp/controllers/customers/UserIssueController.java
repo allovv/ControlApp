@@ -34,15 +34,14 @@ public class UserIssueController {
      */
     @GetMapping("/user/{folderId}/{issueId}/edit")
     public String editIssue(@AuthenticationPrincipal UserEntity userEntity,
-                            @PathVariable("folderId") Long folderId,
+                            @PathVariable("folderId") Long fromFolderId,
                             @PathVariable("issueId") Long issueId,
                             Map<String, Object> model) {
-
         //Add attributes
         model.put("userEntity", userEntity);
         model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
 
-        model.put("folderId", folderId);
+        model.put("fromFolderId", fromFolderId);
         model.put("currentIssue", issueRepoService.findById(issueId));
 
         return "user-edit-issue";
@@ -55,26 +54,26 @@ public class UserIssueController {
      */
     @PostMapping("/user/folder/issue")
     public String addIssue(@ModelAttribute @Valid IssueEntity issueEntity, BindingResult bindingResult,
-                           @ModelAttribute("folderId") Long folderId,
+                           @ModelAttribute("currentFolderId") Long currentFolderId,
                            HttpSession httpSession,
                            RedirectAttributes redirectAttributes,
                            Model model) {
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrors = getFieldErrors(bindingResult);
             for (FieldError fieldError : fieldErrors) {
-                //redirect
+                //redirect attr
                 redirectAttributes.addFlashAttribute(fieldError.getField() + "AddIssueError", fieldError.getDefaultMessage());
             }
 
         } else {
             if (!issueRepoService.addIssue(issueEntity)) {
-                //redirect
-                redirectAttributes.addFlashAttribute("existAddIssueError", "Не передан идентификатор текущей области!");
+                //redirect attr
+                redirectAttributes.addFlashAttribute("existAddIssueError", "Ошибка при создании задачи!");
             }
 
         }
         //перенаправление к /user/folders/{folderId}
-        return "redirect:/user/folders/" + folderId;
+        return "redirect:/user/folders/" + currentFolderId;
     }
 
     /**
@@ -84,8 +83,8 @@ public class UserIssueController {
     @PostMapping("/user/folder/issue/edit")
     public String saveEditIssue(@AuthenticationPrincipal UserEntity userEntity,
                                 @ModelAttribute @Valid IssueEntity issueEntity, BindingResult bindingResult,
-                                @ModelAttribute("folderId") Long folderId,
-                                @ModelAttribute("issueId") Long issueId,
+                                @ModelAttribute("fromFolderId") Long fromFolderId,
+                                @ModelAttribute("currentIssueId") Long currentIssueId,
                                 @ModelAttribute("checkboxValue") String checkboxValue,
                                 HttpSession httpSession,
                                 RedirectAttributes redirectAttributes,
@@ -93,14 +92,14 @@ public class UserIssueController {
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError: getFieldErrors(bindingResult)) {
                 redirectAttributes.addFlashAttribute(fieldError.getField() + "EditIssueError", fieldError.getDefaultMessage());
-                return "redirect:/user/" + folderId + "/" + issueId + "/edit"; //redirect к get запросу
+                return "redirect:/user/" + fromFolderId + "/" + currentIssueId + "/edit"; //redirect к get запросу
             }
         }
         issueEntity.setDone("selected".equals(checkboxValue));
-        if (issueRepoService.editIssueById(issueEntity, issueId)) {
-            return "redirect:/user/folders/" + folderId;
+        if (issueRepoService.editIssueById(issueEntity, currentIssueId)) {
+            return "redirect:/user/folders/" + fromFolderId;
         } else {
-            return "redirect:/user/" + folderId + "/" + issueId + "/edit"; //redirect к get запросу
+            return "redirect:/user/" + fromFolderId + "/" + currentIssueId + "/edit"; //redirect к get запросу
         }
     }
 
