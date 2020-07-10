@@ -1,42 +1,47 @@
-<!-- -------------------------------------------------------------------- -->
-<!-- (DeleteFolder) будет добавлено на страницу, только если передан currentFolder -->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!-- -------------------------------------------------------------------- -->
+        <!-- (DeleteFolder) будет добавлено на страницу, только если передан currentFolder -->
 
-<!-- Button trigger modal -->
-<!--
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
-    Запустить модальное окно
-</button>
--->
+        <!-- Button trigger modal -->
+        <!--
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+            Запустить модальное окно
+        </button>
+        -->
 
-<!-- Modal -->
-<div
-        class="modal fade" id="deleteFolderModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true"
-        th:fragment="deleteFolderModal" th:if="${currentFolder}"
->
-    <div class="modal-dialog" role="document">
+        <!-- Modal -->
+        <div
+                class="modal fade" id="deleteFolderModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true"
+                th:fragment="deleteFolderModal" th:if="${currentFolder}"
+        >
+            <div class="modal-dialog" role="document">
 
-        <form th:action="@{/user/folders/delete}" method="post"> <!-- POST request -->
+                <form th:action="@{/user/folders/delete}" method="post"> <!-- POST request -->
 
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Удаление области</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Вы действительно хотите удалить рабочую область?
-                </div>
-                <div class="modal-footer">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Удаление области</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Вы действительно хотите удалить рабочую область?
+                        </div>
+                        <div class="modal-footer">
 
-                    <input type="number" th:value="${currentFolder.id}" name="folderId" class="d-none">
+                            <input type="number" th:value="${currentFolder.id}" name="folderId" class="d-none">
 
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="submit" class="btn btn-primary">Удалить</button>
-                </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-primary">Удалить</button>
+                        </div>
+                    </div>
+
+                </form>
             </div>
-
-        </form>
-    </div>
-</div>
-<!-- -------------------------------------------------------------------- -->
+        </div>
+        <!-- -------------------------------------------------------------------- -->
+    </body>
+</html>

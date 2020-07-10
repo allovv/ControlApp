@@ -1,31 +1,36 @@
-<!-- -------------------------------------------------------------------- -->
-<nav
-        th:fragment="navUser"
-        class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-3 shadow align-items-center"
->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <!-- -------------------------------------------------------------------- -->
+        <nav
+                th:fragment="navUser"
+                class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-3 shadow align-items-center"
+        >
 
-    <div class="align-items-center justify-content-center mr-auto">
-        <a class="navbar-brand mr-0" href="#">
-            <img src="/static/assets/img/control-logo.png" width="30" height="30" alt="">
-        </a>
-        <a class="navbar-brand m-auto" href="#">Control</a>
-    </div>
+            <div class="align-items-center justify-content-center mr-auto">
+                <a class="navbar-brand mr-0" href="#">
+                    <img src="/static/assets/img/control-logo.png" width="30" height="30" alt="">
+                </a>
+                <a class="navbar-brand m-auto" href="#">Control</a>
+            </div>
 
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a href="#" th:text="${userEntity.username}" class="text-white"></a>
-        </li>
-    </ul>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a href="#" th:text="${userEntity.username}" class="text-white"></a>
+                </li>
+            </ul>
 
-    <div class="nav-item text-nowrap"> <!-- выход из системы -->
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-light text-primary">Выйти</button>
-        </form>
-    </div>
+            <div class="nav-item text-nowrap"> <!-- выход из системы -->
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-light text-primary">Выйти</button>
+                </form>
+            </div>
 
-</nav>
-<!-- -------------------------------------------------------------------- -->
+        </nav>
+        <!-- -------------------------------------------------------------------- -->
+    </body>
+</html>
