@@ -115,7 +115,8 @@ public class UserIssueController {
     }
 
     /**
-     *
+     * Изменение состояния задачи
+     * POST
      */
     @PostMapping("/user/folder/issue/changeState")
     public String changeState(@ModelAttribute("folderId") Long folderId,

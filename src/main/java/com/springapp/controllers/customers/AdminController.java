@@ -3,7 +3,6 @@ package com.springapp.controllers.customers;
 import com.springapp.entities.FolderEntity;
 import com.springapp.entities.IssueEntity;
 import com.springapp.entities.UserEntity;
-import com.springapp.services.CollectionRepoService;
 import com.springapp.services.FolderRepoService;
 import com.springapp.services.IssueRepoService;
 import com.springapp.services.UserRepoService;
@@ -24,8 +23,6 @@ public class AdminController {
     UserRepoService userRepoService;
     @Autowired
     FolderRepoService folderRepoService;
-    @Autowired
-    CollectionRepoService collectionRepoService;
     @Autowired
     IssueRepoService issueRepoService;
 
