@@ -27,6 +27,11 @@ public class AdminController {
     IssueRepoService issueRepoService;
 
     //-------------------------------------------------------------
+
+    /**
+     * Получение шаблона страницы администратора
+     * GET
+     */
     @GetMapping("/admin")
     public String adminUsers(Map<String, Object> model) {
         UserEntity userEntity = getUserSecurity();

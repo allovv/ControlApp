@@ -14,7 +14,7 @@ import java.util.Set;
 public class UserEntity implements UserDetails {
     //-------------------------------------------------------------
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Size(min=3, max=20, message = "Длина имени пользователя должна быть от 2 до 20 символов.")

@@ -88,10 +88,6 @@ public class UserRepoService {
         return userRepository.findByUsername(username);
     }
 
-    public UserEntity findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
     public List<UserEntity> findAll() {
         return userRepository.findAll();
     }

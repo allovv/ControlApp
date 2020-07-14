@@ -1,6 +1,7 @@
 package com.springapp.controllers.customers;
 
 import com.springapp.entities.FolderEntity;
+import com.springapp.entities.IssueEntity;
 import com.springapp.entities.UserEntity;
 import com.springapp.services.FolderRepoService;
 import com.springapp.services.IssueRepoService;
@@ -18,8 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.springapp.controllers.ControllersTools.getFieldErrors;
 
@@ -45,6 +48,50 @@ public class UserFolderController {
         model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
         model.put("currentFolder", folderRepoService.findById(folderId));
         model.put("issues", issueRepoService.findAllByFolderId(folderId));
+
+        HashSet<String> tags = new HashSet<>();
+        for (IssueEntity issue : issueRepoService.findAllByFolderId(folderId)) {
+            for (String tag : issue.getTags()) {
+                tags.add(tag);
+            }
+        }
+        model.put("tagsToSorting", tags);
+
+        return "user";
+    }
+
+    /**
+     * Вывод информации по конкретной папке с сортировкой по тегу
+     * GET
+     */
+    @GetMapping("/user/folders/{folderId}/sort/{tag}")
+    public String sortFolderByTag(@PathVariable("folderId") Long folderId,
+                                  @AuthenticationPrincipal UserEntity userEntity,
+                                  @PathVariable("tag") String tagToSort,
+                                  Map<String, Object> model) {
+
+        //Add attributes
+        model.put("userEntity", userEntity);
+        model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
+        model.put("currentFolder", folderRepoService.findById(folderId));
+
+        Set<IssueEntity> issues = new HashSet<>();
+        for (IssueEntity issueEntity : issueRepoService.findAllByFolderId(folderId)) {
+            if (issueEntity.getTags().contains(tagToSort)) {
+                issues.add(issueEntity);
+            }
+        }
+        model.put("issues", issues);
+
+        HashSet<String> tags = new HashSet<>();
+        for (IssueEntity issue : issueRepoService.findAllByFolderId(folderId)) {
+            for (String tag : issue.getTags()) {
+                tags.add(tag);
+            }
+        }
+        model.put("tagsToSorting", tags);
+
+        model.put("currentTag", tagToSort);
 
         return "user";
     }

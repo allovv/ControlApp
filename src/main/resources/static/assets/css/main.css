@@ -19,3 +19,25 @@
     background-image: none;
     border-color: #6633FF !important;
 }
+
+/* -------------------------------------- */
+
+.badge {
+    min-width: 40px;
+    font-size: 100%;
+    min-height: 8px;
+    font-weight: 500;
+}
+
+/* -------------------------------------- */
+
+.bg-light-grey {
+    background-color: #EDEDED!important;
+}
+
+/* -------------------------------------- */
+
+.badge-light {
+    color: #212529;
+    background-color: #EDEDED!important;
+}

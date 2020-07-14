@@ -6,6 +6,17 @@
                 th:fragment="addFolderModal"
                 class="modal fade" id="addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderModalLabel" aria-hidden="true"
         >
+
+            <!-- -------------------------------------------------------------------- -->
+            <th:block th:if="${nameAddFolderError}"> <!-- Скрипт в случае ошибки-->
+                <script>
+                    $(document).ready(function() {
+                        $("#addFolderModal").modal('show');
+                    });
+                </script>
+            </th:block>
+            <!-- -------------------------------------------------------------------- -->
+
             <div class="modal-dialog" role="document">
 
                 <form th:action="@{/user/folders}" th:object="${userEntity}" method="post">
@@ -20,8 +31,8 @@
 
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Название:</label>
-                                <input type="text" class="" id="recipient-name" name="name"
+                                <label class="col-form-label">Название:</label>
+                                <input type="text" class="" name="name"
                                        th:class="${nameAddFolderError} ? 'form-control is-invalid' : form-control ">
 
                                 <div class="invalid-feedback" th:if="${nameAddFolderError}" th:text="${nameAddFolderError}">

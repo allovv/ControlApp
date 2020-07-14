@@ -5,44 +5,81 @@
         <!-- (AddIssue) будет добавлено на страницу, только если передан currentFolder -->
         <div
                 th:fragment="addIssue" th:if="${currentFolder}"
-                class="container-fluid pl-0"
+                class="container-fluid pl-0 pr-0"
         >
-            <p>
-                <a class="btn btn-primary" id="linkAddIssueCollapse" data-toggle="collapse" href="#addIssueCollapse" role="button" aria-expanded="false" aria-controls="addIssueCollapse">
-                    Добавить задачу
-                </a>
-            </p>
 
-            <div class="collapse shadow-sm rounded" id="addIssueCollapse">
-                <div class="card card-body">
+            <!-- -------------------------------------------------------------------- -->
+            <th:block th:if="${nameAddIssueError}">
+                <script>
+                    $(document).ready(function() {
+                         $("#linkAddIssueCollapse").click();
+                    });
+                </script>
+            </th:block>
+            <th:block th:if="${descriptionAddIssueError}">
+                <script>
+                    $(document).ready(function() {
+                         $("#linkAddIssueCollapse").click();
+                    });
+                </script>
+            </th:block>
+            <th:block th:if="${openNewIssueForm}">
+                <script>
+                    $(document).ready(function() {
+                         $("#linkAddIssueCollapse").click();
+                    });
+                </script>
+            </th:block>
+            <!-- -------------------------------------------------------------------- -->
 
-                    <!-- form to add issue -------------------------------------- -->
-                    <form th:action="@{'/user/folder/issue'}" th:object="${currentFolder}" method="post">
-                        <div class="container-fluid">
+            <p><a class="btn btn-primary" id="linkAddIssueCollapse" data-toggle="collapse"
+                   href="#addIssueCollapse" role="button" aria-expanded="false" aria-controls="addIssueCollapse">
+                    Добавить задачу</a></p>
 
-                            <hr>
+            <div class="collapse shadow-sm rounded card card-body" id="addIssueCollapse">
 
-                            <div class="row">
-                                <div class="col">
+                <div class="row">
+                    <div class="col-12">
+
+
+                        <!-- form to add issue -------------------------------------- -->
+                        <div class="row">
+                            <form th:action="@{'/user/folder/issue'}" method="post" id="addNewIssueForm" class="container-fluid m-0 p-0">
+                                <div class="container-fluid">
+                                    <hr> <!-- разделитель -->
                                     <!-- name -->
                                     <div class="form-group">
-                                        <input name="name" type="text" id="addIssueName" placeholder="Новая задача"
+                                        <input name="name" type="text" id="addIssueName" placeholder="Новая задача" maxlength="250"
                                                th:class="${nameAddIssueError} ? 'form-control is-invalid' : 'form-control border-white'">
                                         <div class="invalid-feedback" th:if="${nameAddIssueError}" th:text="${nameAddIssueError}">
                                         </div>
                                     </div>
                                     <!-- description -->
                                     <div class="form-group">
-                                    <textarea name="description" type="text" class="form-control border-white" id="description-issue" rows="2" placeholder="Описание"
-                                              th:class="${descriptionAddIssueError} ? 'form-control is-invalid' : 'form-control border-white'"></textarea>
+                                        <input name="description" type="text" class="form-control border-white" id="description-issue" placeholder="Описание" maxlength="250"
+                                               th:class="${descriptionAddIssueError} ? 'form-control is-invalid' : 'form-control border-white'">
                                         <div class="invalid-feedback" th:if="${descriptionAddIssueError}" th:text="${descriptionAddIssueError}">
+                                        </div>
+                                    </div>
+                                    <!-- tags -->
+                                    <div class="form-group">
+                                        <div class="container-fluid">
+                                            <!-- скрытое поле для тегов задачи -->
+                                            <input type="hidden" name="tags" id="storageTags" maxlength="250">
+                                        </div>
+                                    </div>
+                                    <!-- tags view -->
+                                    <div class="container-fluid">
+                                        <div class="row" id="viewTagsNewIssueContainer">
+                                            <div class="container-fluid" id="tagsViewNewIssue">
+                                            </div>
                                         </div>
                                     </div>
 
                                     <hr>
                                     <!-- location -->
                                     <div class="form-group">
-                                        <select class="form-control" placeholder="Расположение" name="folderId">
+                                        <select class="form-control border-white" placeholder="Расположение" name="folderId">
                                             <option th:each ="folder : ${folders}"
                                                     th:text="${folder.name}"
                                                     th:value="${folder.id}"
@@ -55,21 +92,123 @@
                                         <input type="number" class="d-none" name="currentFolderId"
                                                th:value="${currentFolder.id}">
                                     </div>
+                                    <hr>
                                 </div>
-                            </div>
+                            </form>
+                        </div>
+                        <!-- form to add issue -------------------------------------- -->
 
-                            <div class="row">
-                                <div class="col">
-                                    <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#addIssueCollapse">Закрыть</button>
-                                    <button type="submit" class="btn btn-primary">Создать</button>
-                                </div>
-                            </div>
+
+                        <!-- добавление тега к задаче ------------------------------ -->
+                        <div class="row">
+
+                            <!-- ---------------------------------- -->
+                            <script>
+                                $(document).ready(function() {
+                                    $('#inputAddNewTag').keydown(function(e) {
+                                        if(e.keyCode === 13) {
+
+                                            //новый тег
+                                            var inputText = $('#inputAddNewTag').val();
+
+                                            //уже существующие теги в виде строки
+                                            var stringArray = ($('#storageTags').val()).split(',');
+
+                                            if (inputText != "" && inputText != null && !( inputText.indexOf(" ") >= 0 )) {
+                                                if (!($.inArray(inputText, stringArray) >= 0)) {
+                                                    //если тег уникальный
+
+                                                    var aTag = $('<a>', {
+                                                        class : 'badge badge-success badge-pill addNewTagAnchor mr-1',
+                                                        href: "#",
+                                                        text : $('#inputAddNewTag').val() + " ×",
+                                                        onclick : "return false",
+                                                        id : $('#inputAddNewTag').val() + 'AnchorTag',
+                                                    });
+
+                                                    //добавляем видимый тег
+                                                    $("#tagsViewNewIssue").append(aTag);
+
+                                                    //добавляем текстовое значение тега в хранилище
+                                                    $('#storageTags').val($('#storageTags').val() + inputText + ',');
+
+                                                    $('#inputAddNewTag').val(''); //очистка поля формы
+
+                                                } else {
+                                                    $('#inputAddNewTag').val(''); //очистка поля формы
+                                                }
+                                            } else {
+                                                $('#inputAddNewTag').val(''); //очистка поля формы
+                                            }
+                                        }
+                                      });
+                                });
+                            </script>
+                            <script>
+                                //удаление тегов из контейнера и поля с данными
+                                $(document).ready(function() {
+                                    $('#viewTagsNewIssueContainer').on('click', '.addNewTagAnchor', function(){
+
+                                        //удаляю элемент со страницы
+                                        var idElem = $(this).attr('id');
+                                        $('#' + idElem).remove();
+
+                                        var deleteSubstring = $(this).attr('id');
+                                        var deleteSubstring = deleteSubstring.replace("AnchorTag", '');
+
+                                        var storageTagsStr = $('#storageTags').val(); //убираем подстроку из тега
+                                        storageTagsStr = storageTagsStr.replace(deleteSubstring + ",", '');
+                                        $('#storageTags').val(storageTagsStr);
+                                    });
+                                });
+                            </script>
+                            <script>
+                                //по клику на кнопку показать поле для ввода тега
+                                $(document).ready(function() {
+                                    $('#inputTagAnchor').on('click', function(){
+                                        $('#inputAddNewTag').toggle();
+                                    });
+                                });
+                            </script>
+                            <!-- ---------------------------------- -->
 
                         </div>
-                    </form>
-                    <!-- form to add issue -------------------------------------- -->
+                        <!-- добавление тега к задаче ------------------------------ -->
 
+                        <!-- отправка данных с формы -->
+                        <div class="row justify-content-between">
+                            <div class="col-auto" style="position:relative;">
+                                <div class="container-fluid">
+                                    <div class="row align-items-center">
+                                        <!-- конопка для тега -->
+                                        <div class="col-auto">
+                                            <a href="#" onclick="return false" id="inputTagAnchor" class="btn btn-outline-success">
+                                                <p style="display:inline">Тег </p>
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tags" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                                                    <path fill-rule="evenodd" d="M5.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                                    <path d="M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <!-- добавить тег к задаче -->
+                                        <div class="col-auto ml-0 pl-0">
+                                            <input autocomplete="on" placeholder="Без пробелов" class="form-control form-control-sm"
+                                                   type="text" name="issueTag" id="inputAddNewTag" style="display:none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="container-fluid">
+                                    <button type="submit" class="btn btn-primary" form="addNewIssueForm">Создать</button>
+                                    <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#addIssueCollapse">Закрыть</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </body>

@@ -19,7 +19,7 @@
 
     <!-- -------------------------------------------------------------------- -->
 
-    <div class="container-fluid" style="height:100vh">
+    <div class="container-fluid">
         <div class="row" style="height:100vh">
 
             <!-- SIDEBAR ------------------------------------------------------------------------------- -->
@@ -32,13 +32,6 @@
 
                 <!-- ==================================================================== -->
                 <div th:insert="fragments/user-modal-add-f :: addFolderModal"></div>
-                <th:block th:if="${nameAddFolderError}"> <!-- Скрипт в случае ошибки-->
-                    <script>
-                            $(document).ready(function() {
-                            $("#addFolderModal").modal('show');
-                            });
-                        </script>
-                </th:block>
                 <!-- ==================================================================== -->
 
             </div>

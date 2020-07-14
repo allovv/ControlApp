@@ -35,7 +35,7 @@ public class FolderRepoService {
             for (FolderEntity folder : folderEntities) {
                 if (folder.getName().equals(newFolder.getName())) {
                     again = true;
-                    newFolder.setName(initialName + " " + String.valueOf(digit));
+                    newFolder.setName(initialName + " " + digit);
                     digit++;
                 }
             }

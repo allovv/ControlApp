@@ -7,6 +7,24 @@
                 th:fragment="editFolderModal" th:if="${currentFolder}"
                 class="modal fade" id="editFolderModal" tabindex="-1" role="dialog" aria-labelledby="editFolderModalLabel" aria-hidden="true"
         >
+
+            <!-- -------------------------------------------------------------------- -->
+            <th:block th:if="${editNameFolderError}">  <!-- Скрипт в случае ошибки-->
+                <script>
+                    $(document).ready(function() {
+                        $("#editFolderModal").modal('show');
+                    });
+                </script>
+            </th:block>
+            <th:block th:if="${editExistNameFolderError}">  <!-- Скрипт в случае ошибки-->
+                <script>
+                    $(document).ready(function() {
+                        $("#editFolderModal").modal('show');
+                    });
+                </script>
+            </th:block>
+            <!-- -------------------------------------------------------------------- -->
+
             <div class="modal-dialog" role="document">
 
                 <form th:action="@{/user/folders/edit}" method="post"> <!-- POST request -->
@@ -21,8 +39,8 @@
 
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="recipient-name" class="col-form-label">Название:</label>
-                                <input type="text" class="" id="recipient-name" name="name"
+                                <label class="col-form-label">Название:</label>
+                                <input type="text" class="" name="name"
                                        th:class="${editNameFolderError} OR ${editExistNameFolderError} ? 'form-control is-invalid' : form-control ">
                                 <div class="invalid-feedback" th:if="${editNameFolderError}" th:text="${editNameFolderError}">
                                 </div>

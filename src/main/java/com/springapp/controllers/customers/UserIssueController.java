@@ -27,6 +27,7 @@ public class UserIssueController {
     IssueRepoService issueRepoService;
     @Autowired
     FolderRepoService folderRepoService;
+
     //-------------------------------------------------------------
     /**
      * Редактирование задачи (получение станицы для редактирования)
@@ -53,8 +54,9 @@ public class UserIssueController {
      * POST
      */
     @PostMapping("/user/folder/issue")
-    public String addIssue(@ModelAttribute @Valid IssueEntity issueEntity, BindingResult bindingResult,
+    public String addIssue(@ModelAttribute("newIssue") @Valid IssueEntity newIssue, BindingResult bindingResult,
                            @ModelAttribute("currentFolderId") Long currentFolderId,
+                           @ModelAttribute("tags") String tags,
                            HttpSession httpSession,
                            RedirectAttributes redirectAttributes,
                            Model model) {
@@ -66,7 +68,7 @@ public class UserIssueController {
             }
 
         } else {
-            if (!issueRepoService.addIssue(issueEntity)) {
+            if (!issueRepoService.addIssue(newIssue, tags)) {
                 //redirect attr
                 redirectAttributes.addFlashAttribute("existAddIssueError", "Ошибка при создании задачи!");
             }
@@ -81,8 +83,7 @@ public class UserIssueController {
      * POST
      */
     @PostMapping("/user/folder/issue/edit")
-    public String saveEditIssue(@AuthenticationPrincipal UserEntity userEntity,
-                                @ModelAttribute @Valid IssueEntity issueEntity, BindingResult bindingResult,
+    public String saveEditIssue(@ModelAttribute @Valid IssueEntity issueEntity, BindingResult bindingResult,
                                 @ModelAttribute("fromFolderId") Long fromFolderId,
                                 @ModelAttribute("currentIssueId") Long currentIssueId,
                                 @ModelAttribute("checkboxValue") String checkboxValue,
@@ -130,4 +131,5 @@ public class UserIssueController {
         issueRepoService.save(issueEntity);
         return "redirect:/user/folders/" + folderId;
     }
+
 }

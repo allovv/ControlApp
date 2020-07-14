@@ -5,6 +5,7 @@ import com.springapp.repositories.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -15,10 +16,23 @@ public class IssueRepoService {
 
     //-------------------------------------------------------------
 
-    public boolean addIssue(IssueEntity issueEntity) {
+    public boolean addIssue(IssueEntity issueEntity, String tags) {
         if (issueEntity.getFolderId() == null) {
             return false;
         }
+        if (tags == null) {
+            return false;
+        }
+        //установка тегов
+        String[] tagsArray = tags.split(",");
+        HashSet<String> tagsSet = new HashSet<>();
+        for (String tag: tagsArray) {
+            if (!tag.isEmpty()) {
+                tagsSet.add(tag);
+            }
+        }
+        issueEntity.setTags(tagsSet);
+
         //сохранение
         issueRepository.save(issueEntity);
         return true;

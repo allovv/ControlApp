@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "issues_table")
@@ -23,6 +25,10 @@ public class IssueEntity {
     private Long folderId;
 
     private Boolean done = false;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "tag_id"))
+    private Set<String> tags = new HashSet<>();
 
     //-------------------------------------------------------------
     protected IssueEntity() {}
@@ -81,6 +87,14 @@ public class IssueEntity {
 
     public void setFolderId(Long folderId) {
         this.folderId = folderId;
+    }
+
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
     }
 
     //-------------------------------------------------------------
