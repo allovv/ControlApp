@@ -85,7 +85,7 @@ public class UserRepoService {
 
     //find --------------------------------------------
     public UserEntity findById(Long id) {
-        return userRepository.findById(id).orElse(new UserEntity(" ", " ", " ")); //TODO: если пользователя нет в БД, возвр. пустой
+        return userRepository.findById(id).get();
     }
 
     public UserEntity findByUsername(String username) {

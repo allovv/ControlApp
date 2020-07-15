@@ -43,8 +43,20 @@ public class IssueRepoService {
         issueToEdit.setDescription(editedIssue.getDescription());
         issueToEdit.setFolderId(editedIssue.getFolderId());
         issueToEdit.setTagsNoParsing(editedIssue.getTagsNoParsing());
+        issueToEdit.setStatus(editedIssue.getStatus());
+
+        //обновление информации в БД
         issueRepository.save(issueToEdit);
         return true;
+    }
+
+    public void setStatusById(Long id, IssueEntity.IssueStatus status) {
+        //изменение состояния задачи на "удалена"
+        IssueEntity issue = this.findById(id);
+        issue.setStatus(status);
+
+        //обновляем информацию в БД
+        this.save(issue);
     }
 
     //delete --------------------------------------------
@@ -63,14 +75,19 @@ public class IssueRepoService {
 
     //find --------------------------------------------
     public IssueEntity findById(Long id) {
-        return issueRepository.findById(id).orElse(new IssueEntity(" ", null));
+        return issueRepository.findById(id).get();
     }
 
-    public List<IssueEntity> findAllByFolderId(Long collectionId) {
-        return issueRepository.findAllByFolderId(collectionId);
+    public List<IssueEntity> findAllByFolderId(Long folderId) {
+        return issueRepository.findAllByFolderId(folderId);
     }
 
     public List<IssueEntity> findAll() {
         return issueRepository.findAll();
+    }
+
+    //special find --------------------------------------------
+    public List<IssueEntity> findAllByFolderIdAndStatus(Long folderId, IssueEntity.IssueStatus status) {
+        return issueRepository.findAllByFolderIdAndStatus(folderId, status);
     }
 }

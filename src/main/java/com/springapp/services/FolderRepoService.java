@@ -49,10 +49,12 @@ public class FolderRepoService {
     public void editFolderById(String name, Long id) {
         FolderEntity folderToEdit = this.findById(id);
         folderToEdit.setName(name);
+
+        //обновление информации в БД
         folderRepository.save(folderToEdit);
     }
 
-    public boolean isExist(String name, Long creatorId) {
+    public boolean isExistWithName(String name, Long creatorId) {
         List<FolderEntity> folderEntities = folderRepository.findAllByCreatorId(creatorId);
         for (FolderEntity folder : folderEntities) {
             if (folder.getName().equals(name)) {
@@ -95,7 +97,7 @@ public class FolderRepoService {
     }
 
     public FolderEntity findById(Long id) {
-        return folderRepository.findById(id).orElse(new FolderEntity(" ", null));
+        return folderRepository.findById(id).get();
     }
 
     public List<FolderEntity> findAll() {

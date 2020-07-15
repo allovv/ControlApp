@@ -15,6 +15,11 @@ import java.util.TreeSet;
 @Table(name = "issues_table")
 public class IssueEntity {
     //-------------------------------------------------------------
+    public enum IssueStatus {
+        DELETE, COMMON, IMPORTANT;
+    }
+
+    //-------------------------------------------------------------
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,6 +32,9 @@ public class IssueEntity {
 
     @NotNull(message = "Идентификатор области при создании задачи не должен быть пустым.")
     private Long folderId;
+
+    @NotNull(message = "Статус задачи не должен быть пустым.")
+    private IssueStatus status = IssueStatus.COMMON;
 
     @NotNull(message = "Статус задачи не должен быть пустым.")
     private Boolean done = false;
@@ -47,26 +55,28 @@ public class IssueEntity {
         this.name = name;
         this.description = "";
         this.folderId = folderId;
+        this.done = false;
 
         //установка даты
         ZonedDateTime date = LocalDateTime.now().atZone(ZoneId.systemDefault());
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.createDate = date.format(dateTimeFormatter);
 
-        done = false;
+        status = IssueStatus.COMMON;
     }
 
     public IssueEntity(String name, String description, Long folderId) {
         this.name = name;
         this.description = description;
         this.folderId = folderId;
+        this.done = false;
 
         //установка даты
         ZonedDateTime date = LocalDateTime.now().atZone(ZoneId.systemDefault());
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.createDate = date.format(dateTimeFormatter);
 
-        done = false;
+        status = IssueStatus.COMMON;
     }
 
     //-------------------------------------------------------------
@@ -95,12 +105,12 @@ public class IssueEntity {
         this.description = description;
     }
 
-    public Boolean getDone() {
-        return done;
+    public IssueStatus getStatus() {
+        return status;
     }
 
-    public void setDone(Boolean done) {
-        this.done = done;
+    public void setStatus(IssueStatus status) {
+        this.status = status;
     }
 
     public Long getFolderId() {
@@ -122,6 +132,14 @@ public class IssueEntity {
     private void setTagsContainer(Set<String> tagsContainer) {
         //не требуется этот метод
         this.tagsContainer = tagsContainer;
+    }
+
+    public Boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
     }
 
     public Set<String> getTagsContainer() {
@@ -146,8 +164,8 @@ public class IssueEntity {
     }
 
     //-------------------------------------------------------------
-    public boolean isDone() {
-        return done;
+    public void changeDone() {
+        done = !done;
     }
 
     private void updateTagsContainer(String tagsNoPars) {

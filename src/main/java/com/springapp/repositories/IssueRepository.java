@@ -9,7 +9,8 @@ import java.util.List;
 @Repository
 public interface IssueRepository extends CrudRepository<IssueEntity, Long> {
 
-    List<IssueEntity> findAllByFolderId(Long id);
+    List<IssueEntity> findAllByFolderIdAndStatus(Long folderId, IssueEntity.IssueStatus status);
+    List<IssueEntity> findAllByFolderId(Long folderId);
     List<IssueEntity> findAll();
 
 }

@@ -82,7 +82,7 @@ public class UserIssueController {
     @PostMapping("/user/folder/issue/delete")
     public String deleteIssue(@ModelAttribute("folderId") Long folderId,
                               @ModelAttribute("issueId") Long issueId) {
-        issueRepoService.deleteById(issueId);
+        issueRepoService.setStatusById(issueId, IssueEntity.IssueStatus.DELETE);
         return "redirect:/user/folders/" + folderId;
     }
 
@@ -95,7 +95,7 @@ public class UserIssueController {
                               @ModelAttribute("issueId") Long issueId) {
         IssueEntity issueEntity = issueRepoService.findById(issueId);
 
-        issueEntity.setDone(!issueEntity.isDone());
+        issueEntity.changeDone();
         issueRepoService.save(issueEntity);
         return "redirect:/user/folders/" + folderId;
     }

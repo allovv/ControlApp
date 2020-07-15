@@ -44,7 +44,7 @@ public class UserFolderController {
         model.put("userEntity", userEntity);
         model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
         model.put("currentFolder", folderRepoService.findById(folderId));
-        model.put("issues", issueRepoService.findAllByFolderId(folderId));
+        model.put("issues", issueRepoService.findAllByFolderIdAndStatus(folderId, IssueEntity.IssueStatus.COMMON));
         model.put("tagsToFilter", getTagsToFilter(folderId));
 
         return "user";
@@ -66,7 +66,7 @@ public class UserFolderController {
         model.put("currentFolder", folderRepoService.findById(folderId));
 
         Set<IssueEntity> issues = new HashSet<>();
-        for (IssueEntity issueEntity : issueRepoService.findAllByFolderId(folderId)) {
+        for (IssueEntity issueEntity : issueRepoService.findAllByFolderIdAndStatus(folderId, IssueEntity.IssueStatus.COMMON)) {
             if (issueEntity.getTagsContainer().contains(tagToFilter)) {
                 issues.add(issueEntity);
             }
@@ -139,7 +139,7 @@ public class UserFolderController {
             return "redirect:/user/folders/" + folderId;
         }
 
-        if (folderRepoService.isExist(name, userEntity.getId())) {
+        if (folderRepoService.isExistWithName(name, userEntity.getId())) {
             //redirect (flash аттрибут)
             redirectAttributes.addFlashAttribute("editExistNameFolderError", "Папка с таким названием уже существует");
 
@@ -154,7 +154,7 @@ public class UserFolderController {
     //-------------------------------------------------------------
     private TreeSet<String> getTagsToFilter(Long folderId) {
         TreeSet<String> tags = new TreeSet<>();
-        for (IssueEntity issue : issueRepoService.findAllByFolderId(folderId)) {
+        for (IssueEntity issue : issueRepoService.findAllByFolderIdAndStatus(folderId, IssueEntity.IssueStatus.COMMON)) {
             tags.addAll(issue.getTagsContainer());
         }
         return tags;

@@ -37,12 +37,14 @@ public class AdminController {
         UserEntity userEntity = getUserSecurity();
 
         //TODO: можно оптимизировать
-        //Add attributes
+
+        //количество пользователей
         List<UserEntity> userEntities = userRepoService.findAll();
         model.put("userEntity", userEntity);
         model.put("users", userEntities);
         model.put("numUsers", userEntities.size());
 
+        //количество папок
         List<FolderEntity> folderEntities = folderRepoService.findAll();
         model.put("numFolders", folderEntities.size());
 
@@ -52,6 +54,7 @@ public class AdminController {
         }
         model.put("numFoldersMap", numFoldersMap);
 
+        //количество задач
         List<IssueEntity> issueEntities = issueRepoService.findAll();
         model.put("numIssues", issueEntities.size());
         HashMap<String, Long> numIssuesMap = new HashMap<>();

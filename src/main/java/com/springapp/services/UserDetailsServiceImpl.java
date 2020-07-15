@@ -9,13 +9,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    //сервис для WebSecurityConfig
 
     //-------------------------------------------------------------
     @Autowired
     UserRepoService userRepoService;
 
     //-------------------------------------------------------------
+
+    /**
+     * сервис для WebSecurityConfig
+     * используется при авторизации пользователя
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepoService.findByUsername(username);
