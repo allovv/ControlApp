@@ -1,5 +1,6 @@
 package com.springapp.services;
 
+import com.springapp.entities.FolderEntity;
 import com.springapp.entities.Roles;
 import com.springapp.entities.UserEntity;
 import com.springapp.repositories.UserRepository;
@@ -41,6 +42,9 @@ public class UserRepoService {
 
         //сохранение пользователя
         userRepository.save(userEntity);
+
+        //добавление областей по умолчанию
+        folderRepoService.addFolder(new FolderEntity("Задачи", userEntity.getId()));
         return true;
     }
 

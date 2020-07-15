@@ -15,6 +15,7 @@ public class RedirectController {
 
     @GetMapping(SUCCESS_AUTH_URL)
     public String redirect(Model model) {
+        //TODO: перенаправление (потом изменить)
         UserEntity userEntity = getUserSecurity();
 
         for (Roles role : userEntity.getRoles()) {

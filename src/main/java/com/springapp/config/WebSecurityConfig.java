@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        userRepoService.registerAdmin(); //TODO: добавление администратора в систему (могут быть проблемы с Validate)
+        userRepoService.registerAdmin(); //добавление администратора в базу данных
 
         auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
     }

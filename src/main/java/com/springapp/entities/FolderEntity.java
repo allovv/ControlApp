@@ -3,6 +3,7 @@ package com.springapp.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "folders_table")
@@ -13,6 +14,7 @@ public class FolderEntity {
     private Long id;
 
     @NotBlank(message = "Название не может быть пустым.")
+    @Size(max=30, message = "Название обалсти не должно превышать 30 символов.")
     private String name;
 
     @NotNull(message = "Идентификатор создателя не может быть пустым.")

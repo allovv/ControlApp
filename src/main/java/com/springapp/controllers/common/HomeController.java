@@ -23,7 +23,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
-        if (isAuthenticated()) { //TODO: перенаправление (изменить)
+        if (isAuthenticated()) {
             return "redirect:" + SUCCESS_AUTH_URL;
         }
 

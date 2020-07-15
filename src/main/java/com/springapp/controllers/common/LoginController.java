@@ -17,7 +17,7 @@ public class LoginController {
     @GetMapping("/login")
     public String login(Model model) {
 
-        if (isAuthenticated()) { //TODO: перенаправление (изменить)
+        if (isAuthenticated()) {
             return "redirect:" + SUCCESS_AUTH_URL;
         }
 

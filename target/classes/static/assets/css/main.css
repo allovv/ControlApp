@@ -32,12 +32,30 @@
 /* -------------------------------------- */
 
 .bg-light-grey {
-    background-color: #EDEDED!important;
+    background-color: #DEDEDE!important;
 }
 
 /* -------------------------------------- */
 
 .badge-light {
     color: #212529;
-    background-color: #EDEDED!important;
+    background-color: #DEDEDE!important;
+}
+
+.none-style-button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+.none-style-button:active {
+    box-shadow: none;
+    background-color: #DEDEDE;
+}
+
+.none-style-button:focus {
+    outline: none;
 }

@@ -1,10 +1,13 @@
+<!-- будет добавлено на страницу, только если передан currentFolder -->
+
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
 
         <th:block th:fragment="userIssuesPanel">
-            <!-- обработка клика по задаче -------------------------------------- -->
+            <!--  -------------------------------------- -->
             <script>
+                //изменение состояния задачи
                 $(document).ready(function() {
                     $('input[type="checkbox"]').click(function(){
                         var checkboxId = $(this).attr('id');
@@ -20,16 +23,73 @@
                     });
                 });
             </script>
-            <!-- обработка клика по задаче -------------------------------------- -->
+            <script>
+                //показать блок с редактированием задачи
+                $(document).ready(function() {
+                    $('.COLLAPSE-EDIT-BUTTON').on('click', function(){
+
+                        //получаю id кнопки
+                        var idElem = $(this).attr('id');
+                        idElem = idElem.replace("CollapseEditButton", '');
+                        idElem = '#' + idElem + 'CollapseEditBlock';
+                        $(idElem).slideToggle();
+                    });
+                });
+            </script>
+            <script>
+                //показать блок с редактированием задачи
+                $(document).ready(function() {
+                    $('.COLLAPSE-EDIT-BUTTON-CLOSE').on('click', function(){
+
+                        //получаю id кнопки
+                        var idElem = $(this).attr('id');
+                        idElem = idElem.replace("CollapseEditButtonClose", '');
+                        idElem = '#' + idElem + 'CollapseEditBlock';
+                        $(idElem).slideToggle();
+                    });
+                });
+            </script>
+            <script>
+                //удалить задачу
+                $(document).ready(function() {
+                    $('.COLLAPSE-DELETE-BUTTON').on('click', function(){
+
+                        //получаю id кнопки
+                        var idElem = $(this).attr('id');
+                        idElem = idElem.replace("DeleteButton", '');
+                        idElem = '#' + idElem + 'DeleteForm';
+                        $(idElem).submit();
+                    });
+                });
+            </script>
+            <script>
+                //дублировать задачу
+                $(document).ready(function() {
+                    $('.DUPLICATE-EDIT-BUTTON').on('click', function(){
+
+                        //получаю id кнопки
+                        var idElem = $(this).attr('id');
+                        idElem = idElem.replace("DuplicateButton", '');
+                        idElem = '#' + idElem + 'DuplicateForm';
+                        $(idElem).submit();
+                    });
+                });
+            </script>
+            <!-- -------------------------------------- -->
 
             <!-- задачи пользователя -------------------------------------- -->
             <th:block th:each ="issue : ${issues}">
                 <div class="container-fluid mt-3">
                     <div class="row">
+
+                        <!-- вывод информации о задаче и форма изменения состояния задачи -->
                         <div class="form-check col-auto mr-auto">
                             <form th:action="'/user/folder/' + ${folderId} + '/issue'" method="post" th:id="${issue.id} + 'Form'">
 
+                                <!-- issue.id -->
                                 <input type="hidden" name="issueId" th:value="${issue.id}">
+
+                                <!-- checkbox -->
                                 <input class="form-check-input trackChangeCheckbox"
                                        type="checkbox"
                                        th:id="${issue.id} + 'Check'"
@@ -37,23 +97,28 @@
                                        th:checked="${issue.done} ? 'checked'"
                                 >
 
+                                <!-- issue.name -->
                                 <p th:if="${issue.done}" class="h6"><s th:text="${issue.name}"></s></p>
                                 <p th:unless="${issue.done}" th:text="${issue.name}" class="h6"></p>
 
+                                <!-- issue.description -->
                                 <div class="container-fluid text-muted">
                                     <p th:text="${issue.description}"></p>
                                 </div>
 
+                                <!-- issue.tagsContainer -->
                                 <div class="container-fluid">
-                                    <th:block th:each ="tag : ${issue.tags}">
+                                    <th:block th:each ="tag : ${issue.tagsContainer}">
                                         <a href="#" class="badge badge-success badge-pill" onclick="return false" th:text="${tag}"></a>
                                     </th:block>
                                 </div>
                             </form>
                         </div>
 
+                        <!-- кнопки удаления / обновления ... -->
                         <div class="col-auto">
                             <div class="row">
+
                                 <!-- change state issue -->
                                 <div class="col">
                                     <form th:action="@{'/user/folder/issue/changeState'}" method="post" th:id="${issue.id} + 'ChangeStateForm'" type="hidden">
@@ -67,28 +132,52 @@
                                         <input type="hidden" name="issueId" th:value="${issue.id}">
                                     </form>
                                 </div>
-                                <!-- edit issue -->
-                                <div class="col p-2 mr-2">
-                                    <form th:action="@{'/user/' + ${currentFolder.id} + '/' + ${issue.id} + '/edit'}" method="get">
-                                        <button type="submit" class="btn btn-outline-warning">
-                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-nut" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M11.42 2H4.58L1.152 8l3.428 6h6.84l3.428-6-3.428-6zM4.58 1a1 1 0 0 0-.868.504l-3.429 6a1 1 0 0 0 0 .992l3.429 6A1 1 0 0 0 4.58 15h6.84a1 1 0 0 0 .868-.504l3.428-6a1 1 0 0 0 0-.992l-3.428-6A1 1 0 0 0 11.42 1H4.58z"/>
-                                                <path fill-rule="evenodd" d="M6.848 5.933a2.5 2.5 0 1 0 2.5 4.33 2.5 2.5 0 0 0-2.5-4.33zM5.067 9.848a3.5 3.5 0 1 1 6.062-3.5 3.5 3.5 0 0 1-6.062 3.5z"/>
-                                            </svg>
-                                        </button>
+
+                                <!-- список действий -->
+                                <div class="col-auto">
+                                    <a class="h5 text-dark" href="#" role="button" id="dropdownMenuFolder" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration:none">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuFolder">
+                                        <button class="dropdown-item none-style-button COLLAPSE-DELETE-BUTTON" th:id="${issue.id} + 'DeleteButton'">Удалить</button>
+                                        <button class="dropdown-item none-style-button COLLAPSE-EDIT-BUTTON" href="#" th:id="${issue.id} + 'CollapseEditButton'">Редактировать</button>
+                                        <button class="dropdown-item none-style-button DUPLICATE-EDIT-BUTTON" th:id="${issue.id} + 'DuplicateButton'">Дублировать</button>
+                                    </div>
+                                </div>
+
+                                <!-- duplicate issue form -->
+                                <div class="col p-2">
+                                    <form th:action="@{'/user/' + ${currentFolder.id} + '/issue/duplicate'}" method="post" th:id="${issue.id} + 'DuplicateForm'">
+                                        <!-- name -->
+                                        <input name="name" type="hidden" th:value="${issue.name}">
+                                        <!-- description -->
+                                        <input name="description" type="hidden" th:value="${issue.description}">
+                                        <!-- tags -->
+                                        <input type="hidden" name="tagsNoParsing" th:value="${issue.tagsNoParsing}">
+                                        <!-- location -->
+                                        <input type="hidden" name="folderId" th:value="${issue.folderId}">
+                                        <!-- status -->
+                                        <input type="hidden" name="done" th:value="${issue.done}">
                                     </form>
                                 </div>
-                                <!-- delete issue -->
+
+                                <!-- delete issue form -->
                                 <div class="col p-2">
-                                    <form th:action="@{/user/folder/issue/delete}" method="post">
+                                    <form th:action="@{/user/folder/issue/delete}" method="post" th:id="${issue.id} + 'DeleteForm'">
                                         <input type="hidden" name="folderId" th:value="${currentFolder.id}">
                                         <input type="hidden" name="issueId" th:value="${issue.id}">
-                                        <button type="submit" class="btn btn-outline-danger">×</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- ==================================================================== -->
+                    <th:block th:insert="fragments/user-edit-issue :: editIssue"></th:block>
+                    <!-- ==================================================================== -->
                 </div>
 
                 <hr> <!-- разделитель -->

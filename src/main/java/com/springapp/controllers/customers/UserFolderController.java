@@ -19,10 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.springapp.controllers.ControllersTools.getFieldErrors;
 
@@ -36,7 +33,7 @@ public class UserFolderController {
 
     //-------------------------------------------------------------
     /**
-     * Вывод информации по конкретной папке
+     * Вывод информации по конкретной области
      * GET
      */
     @GetMapping("/user/folders/{folderId}")
@@ -48,26 +45,19 @@ public class UserFolderController {
         model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
         model.put("currentFolder", folderRepoService.findById(folderId));
         model.put("issues", issueRepoService.findAllByFolderId(folderId));
-
-        HashSet<String> tags = new HashSet<>();
-        for (IssueEntity issue : issueRepoService.findAllByFolderId(folderId)) {
-            for (String tag : issue.getTags()) {
-                tags.add(tag);
-            }
-        }
-        model.put("tagsToSorting", tags);
+        model.put("tagsToFilter", getTagsToFilter(folderId));
 
         return "user";
     }
 
     /**
-     * Вывод информации по конкретной папке с сортировкой по тегу
+     * Вывод информации по конкретной области с сортировкой по тегу
      * GET
      */
-    @GetMapping("/user/folders/{folderId}/sort/{tag}")
+    @GetMapping("/user/folders/{folderId}/sort/{tagToFilter}")
     public String sortFolderByTag(@PathVariable("folderId") Long folderId,
                                   @AuthenticationPrincipal UserEntity userEntity,
-                                  @PathVariable("tag") String tagToSort,
+                                  @PathVariable("tagToFilter") String tagToFilter,
                                   Map<String, Object> model) {
 
         //Add attributes
@@ -77,28 +67,21 @@ public class UserFolderController {
 
         Set<IssueEntity> issues = new HashSet<>();
         for (IssueEntity issueEntity : issueRepoService.findAllByFolderId(folderId)) {
-            if (issueEntity.getTags().contains(tagToSort)) {
+            if (issueEntity.getTagsContainer().contains(tagToFilter)) {
                 issues.add(issueEntity);
             }
         }
         model.put("issues", issues);
 
-        HashSet<String> tags = new HashSet<>();
-        for (IssueEntity issue : issueRepoService.findAllByFolderId(folderId)) {
-            for (String tag : issue.getTags()) {
-                tags.add(tag);
-            }
-        }
-        model.put("tagsToSorting", tags);
-
-        model.put("currentTag", tagToSort);
+        model.put("tagsToFilter", getTagsToFilter(folderId));
+        model.put("currentTag", tagToFilter);
 
         return "user";
     }
 
     //-------------------------------------------------------------
     /**
-     * Добавление папки
+     * Добавление области
      * POST
      */
     @PostMapping("/user/folders")
@@ -117,18 +100,18 @@ public class UserFolderController {
         } else {
             if (!folderRepoService.addFolder(folderEntity)) {
                 //redirect
-                redirectAttributes.addFlashAttribute("existAddFolderError", "Идентификатор пользователя не указан!!");
+                redirectAttributes.addFlashAttribute("existAddFolderError", "Ошибка при добавлении области!!");
 
                 return "redirect:/user";
             }
 
-            //перенаправление после успешного создания папки к /user/folders/{folderId}
+            //перенаправление после успешного создания области к /user/folders/{folderId}
             return "redirect:/user/folders/" + folderEntity.getId();
         }
     }
 
     /**
-     * Удаление папки
+     * Удаление области
      * POST
      */
     @PostMapping("/user/folders/delete")
@@ -139,7 +122,7 @@ public class UserFolderController {
     }
 
     /**
-     * Редактирование папки
+     * Редактирование области
      * POST
      */
     @PostMapping("/user/folders/edit")
@@ -166,5 +149,14 @@ public class UserFolderController {
         folderRepoService.editFolderById(name, folderId);
 
         return "redirect:/user/folders/" + folderId;
+    }
+
+    //-------------------------------------------------------------
+    private TreeSet<String> getTagsToFilter(Long folderId) {
+        TreeSet<String> tags = new TreeSet<>();
+        for (IssueEntity issue : issueRepoService.findAllByFolderId(folderId)) {
+            tags.addAll(issue.getTagsContainer());
+        }
+        return tags;
     }
 }

@@ -15,11 +15,13 @@ public class ControllersTools {
         return bindingResult.getFieldErrors().stream().collect(Collectors.toList());
     }
 
-    public static UserEntity getUserSecurity() { //TODO: данные о авторизованном пользовалете
+    public static UserEntity getUserSecurity() {
+        //данные об авторизованном пользователе
         return (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public static boolean isAuthenticated () { //TODO: редирект если пользователь уже вошел в систему
+    public static boolean isAuthenticated () {
+        //проверка авторизации (используется при перенаправлении)
         return SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);

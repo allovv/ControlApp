@@ -4,8 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "issues_table")
@@ -24,11 +24,15 @@ public class IssueEntity {
     @NotNull(message = "Идентификатор области при создании задачи не должен быть пустым.")
     private Long folderId;
 
+    @NotNull(message = "Статус задачи не должен быть пустым.")
     private Boolean done = false;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "tag_id"))
-    private Set<String> tags = new HashSet<>();
+    private Set<String> tagsContainer = new TreeSet<>(); //для удобства вывода в шаблоне используется контейнейр с тегами
+
+    @Size(max=50, message = "Вы превысили максимальное количество тегов.")
+    private String tagsNoParsing = ""; //теги одной строкой, разделенные ","
 
     //-------------------------------------------------------------
     protected IssueEntity() {}
@@ -89,16 +93,45 @@ public class IssueEntity {
         this.folderId = folderId;
     }
 
-    public Set<String> getTags() {
-        return tags;
+    public Set<String> getTagsContainer() {
+        return tagsContainer;
     }
 
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
+    public String getTagsNoParsing() {
+        return tagsNoParsing;
+    }
+
+    /**
+     * Теги устанавливаются в поле tagsNoParsing
+     * строкой без пробелов, разделенные запятыми
+     */
+    public void setTagsNoParsing(String tagsNoParsing) {
+        //убрать все пробелы из строки
+        tagsNoParsing = tagsNoParsing.replace(" ", "");
+
+        //установка тегов и обновление контейнера с тегами
+        this.tagsNoParsing = tagsNoParsing;
+        this.updateTagsContainer(tagsNoParsing);
     }
 
     //-------------------------------------------------------------
     public boolean isDone() {
         return done;
+    }
+
+    private void updateTagsContainer(String tagsNoPars) {
+        if (tagsNoPars == null) {
+            return;
+        }
+        //установка тегов
+        String[] tagsArray = tagsNoPars.split(",");
+        TreeSet<String> tagsSet = new TreeSet<>();
+        for (String tag: tagsArray) {
+            if (!tag.isEmpty()) {
+                tagsSet.add(tag);
+            }
+        }
+
+        this.tagsContainer = tagsSet;
     }
 }

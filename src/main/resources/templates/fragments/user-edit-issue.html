@@ -1,0 +1,206 @@
+<!-- будет добавлено на страницу, только если передан currentFolder -->
+<!-- в цикле по {issues} -->
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+
+        <!-- toggle блок редактирования задачи -->
+        <div class="row" th:id="${issue.id + 'CollapseEditBlock'}" style="display:none;"
+             th:fragment="editIssue">
+
+            <!-- ------------------------------ -->
+            <script>
+                //по клику на кнопку показать поле для ввода тега
+                $(document).ready(function() {
+                    $('.editTagAnchor').on('click', function(){
+                        var idElem = $(this).attr('id');
+                        idElem = idElem.replace("inputEditTagAnchor", '');
+
+                        $('#' + idElem + 'inputEditNewTag').toggle();
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function() {
+                    $('.inputEditNewTag').keydown(function(e) {
+                        if(e.keyCode === 13) {
+
+                            var idElem = $(this).attr('id');
+                            //новый тег
+                            var inputText = $('#' + idElem).val();
+
+                            //получаю id
+                            var id = idElem.replace("inputEditNewTag", '');
+
+                            //уже существующие теги в виде строки
+                            var stringArray = ($('#' + id + 'TagsHiddenContainerEdit').val()).split(',');
+
+                            if (inputText != "" && inputText != null && !( inputText.indexOf(" ") >= 0) && stringArray.length <= 10) {
+                                if (!($.inArray(inputText, stringArray) >= 0)) {
+                                    //если тег уникальный
+
+                                    var aTag = $('<a>', {
+                                        class : 'badge badge-success badge-pill editNewTagAnchor mr-1',
+                                        href: "#",
+                                        text : inputText + " ×",
+                                        onclick : "return false",
+                                        id : id + '_' + inputText + '_' + 'AnchorTag',
+                                    });
+
+                                    //добавляем видимый тег
+                                    $('#' + id + 'TagsViewContainerEdit').append(aTag);
+
+                                    //добавляем текстовое значение тега в хранилище
+                                    $('#' + id + 'TagsHiddenContainerEdit').val($('#' + id + 'TagsHiddenContainerEdit').val() + inputText + ',');
+
+                                    $('#' + idElem).val(''); //очистка поля формы
+
+                                } else {
+                                    $('#' + idElem).val(''); //очистка поля формы
+                                }
+                            } else {
+                                $('#' + idElem).val(''); //очистка поля формы
+                            }
+                        }
+                      });
+                });
+            </script>
+            <script>
+                //удаление тегов из контейнера и поля с данными
+                $(document).ready(function() {
+                    $('.TagsViewContainerEdit').on('click', '.editNewTagAnchor', function(){
+
+                        //удаляю элемент со страницы
+                        var idElem = $(this).attr('id');
+
+                        var deleteSubstring = $(this).text();
+                        var deleteSubstring = deleteSubstring.replace(" ×", '');
+
+                        var id = $(this).attr('id');
+                        id = id.replace('_' + deleteSubstring + "_AnchorTag", '');
+
+                        $('#' + idElem).remove();
+
+                        var storageTagsStr = $('#' + id + 'TagsHiddenContainerEdit').val(); //убираем подстроку из тега
+                        storageTagsStr = storageTagsStr.replace(deleteSubstring + ",", '');
+                        $('#' + id + 'TagsHiddenContainerEdit').val(storageTagsStr);
+                    });
+                });
+            </script>
+            <!-- ------------------------------ -->
+
+
+            <div class="container-fluid card mt-3">
+                <div class="card-body">
+
+                    <div class="container-fluid">
+                        <div class="row align-items-center">
+                            <svg width="1.2em" height="1.2em" viewBox="0 0 16 16" class="bi bi-nut" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M11.42 2H4.58L1.152 8l3.428 6h6.84l3.428-6-3.428-6zM4.58 1a1 1 0 0 0-.868.504l-3.429 6a1 1 0 0 0 0 .992l3.429 6A1 1 0 0 0 4.58 15h6.84a1 1 0 0 0 .868-.504l3.428-6a1 1 0 0 0 0-.992l-3.428-6A1 1 0 0 0 11.42 1H4.58z"/>
+                                <path fill-rule="evenodd" d="M6.848 5.933a2.5 2.5 0 1 0 2.5 4.33 2.5 2.5 0 0 0-2.5-4.33zM5.067 9.848a3.5 3.5 0 1 1 6.062-3.5 3.5 3.5 0 0 1-6.062 3.5z"/>
+                            </svg>
+                            <p class="h5 ml-2 mb-1">Редактирование задачи</p>
+                        </div>
+                    </div>
+
+                    <!-- форма редактирования задачи -------------------------------------- -->
+                    <div class="row">
+                        <form th:action="@{/user/folder/issue/edit}" method="post" class="container-fluid m-0 p-0" th:id="${issue.id + 'EditIssuePostForm'}">
+                            <div class="container-fluid">
+                                <hr> <!-- разделитель -->
+                                <!-- name -->
+                                <div class="form-group">
+                                    <input name="name" type="text" placeholder="Новая задача" maxlength="30" class="form-control border-white"
+                                           th:value="${issue.name}">
+                                </div>
+                                <!-- description -->
+                                <div class="form-group">
+                                    <input name="description" type="text" class="form-control border-white" placeholder="Описание" maxlength="250"
+                                           th:value="${issue.description}">
+                                </div>
+
+                                <!-- tags -->
+                                <div class="form-group">
+                                    <div class="container-fluid">
+                                        <!-- скрытое поле для тегов задачи -->
+                                        <input type="hidden" name="tagsNoParsing" th:id="${issue.id + 'TagsHiddenContainerEdit'}" maxlength="250"
+                                               th:value="${issue.tagsNoParsing}">
+                                    </div>
+                                </div>
+                                <!-- tags view -->
+                                <div class="container-fluid TagsViewContainerEdit">
+                                    <div class="row" th:id="${issue.id + 'TagsViewContainerEdit'}">
+                                        <th:block th:each ="tag : ${issue.tagsContainer}">
+                                            <a href="#" class="badge badge-success badge-pill editNewTagAnchor mr-1" onclick="return false"
+                                               th:text="${tag} + ' ×'" th:id="${issue.id} + '_' + ${tag} + '_AnchorTag'"></a>
+                                        </th:block>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <!-- location -->
+                                <div class="form-group">
+                                    <select class="form-control border-white" placeholder="Расположение" name="folderId">
+                                        <option th:each ="folder : ${folders}"
+                                                th:text="${folder.name}"
+                                                th:value="${folder.id}"
+                                                th:selected="${folder.id == currentFolder.id}">
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- issue.id -->
+                                <div class="form-group">
+                                    <input name="issueId" type="hidden" class="form-check-input" th:value="${issue.id}">
+                                </div>
+                                <!-- currentFolder.id -->
+                                <div class="form-group">
+                                    <input type="number" class="d-none" name="currentFolderId"
+                                           th:value="${currentFolder.id}">
+                                </div>
+                                <hr>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- form to add issue -------------------------------------- -->
+
+                    <!-- блок с кнопками -->
+                    <div class="container-fluid">
+                        <div class="row justify-content-between">
+                            <div class="col-auto" style="position:relative;">
+                                <div class="container-fluid">
+                                    <div class="row align-items-center">
+                                        <!-- конопка для тега -->
+                                        <div class="col-auto pl-0">
+                                            <a href="#" onclick="return false" th:id="${issue.id + 'inputEditTagAnchor'}" class="btn btn-outline-success editTagAnchor">
+                                                <p style="display:inline">Тег </p>
+                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tags" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                                                    <path fill-rule="evenodd" d="M5.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                                                    <path d="M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <!-- добавить тег к задаче -->
+                                        <div class="col-auto ml-0 pl-0">
+                                            <input autocomplete="on" placeholder="Без пробелов" class="form-control form-control-sm inputEditNewTag"
+                                                   type="text" name="issueTag" th:id="${issue.id + 'inputEditNewTag'}" style="display:none" maxlength="15">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-outline-dark COLLAPSE-EDIT-BUTTON-CLOSE" th:id="${issue.id} + 'CollapseEditButtonClose'">Закрыть</button>
+                                <button type="submit" class="btn btn-primary" th:form="${issue.id + 'EditIssuePostForm'}">Сохранить</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
