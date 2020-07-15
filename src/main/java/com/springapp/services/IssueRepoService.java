@@ -5,6 +5,10 @@ import com.springapp.repositories.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -19,6 +23,11 @@ public class IssueRepoService {
         if (issueEntity.getFolderId() == null) {
             return false;
         }
+
+        //установка даты
+        ZonedDateTime date = LocalDateTime.now().atZone(ZoneId.systemDefault());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        issueEntity.setCreateDate(date.format(dateTimeFormatter));
 
         //сохранение
         issueRepository.save(issueEntity);

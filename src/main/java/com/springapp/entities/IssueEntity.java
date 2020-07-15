@@ -4,6 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,13 +23,15 @@ public class IssueEntity {
     private String name;
 
     @Size(max=255, message = "Максимальная длина описания 255 символов.")
-    private String description;
+    private String description = "";
 
     @NotNull(message = "Идентификатор области при создании задачи не должен быть пустым.")
     private Long folderId;
 
     @NotNull(message = "Статус задачи не должен быть пустым.")
     private Boolean done = false;
+
+    private String createDate = "";
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "tag_id"))
@@ -41,6 +47,12 @@ public class IssueEntity {
         this.name = name;
         this.description = "";
         this.folderId = folderId;
+
+        //установка даты
+        ZonedDateTime date = LocalDateTime.now().atZone(ZoneId.systemDefault());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.createDate = date.format(dateTimeFormatter);
+
         done = false;
     }
 
@@ -48,6 +60,12 @@ public class IssueEntity {
         this.name = name;
         this.description = description;
         this.folderId = folderId;
+
+        //установка даты
+        ZonedDateTime date = LocalDateTime.now().atZone(ZoneId.systemDefault());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.createDate = date.format(dateTimeFormatter);
+
         done = false;
     }
 
@@ -91,6 +109,19 @@ public class IssueEntity {
 
     public void setFolderId(Long folderId) {
         this.folderId = folderId;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    private void setTagsContainer(Set<String> tagsContainer) {
+        //не требуется этот метод
+        this.tagsContainer = tagsContainer;
     }
 
     public Set<String> getTagsContainer() {
