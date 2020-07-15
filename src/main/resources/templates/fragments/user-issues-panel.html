@@ -37,7 +37,7 @@
                 });
             </script>
             <script>
-                //показать блок с редактированием задачи
+                //убрать блок с редактированием задачи
                 $(document).ready(function() {
                     $('.COLLAPSE-EDIT-BUTTON-CLOSE').on('click', function(){
 
@@ -75,7 +75,87 @@
                     });
                 });
             </script>
+            <script>
+                //по клику на кнопку показать поле для ввода тега (при редактировании задачи)
+                $(document).ready(function() {
+                    $('.inputEditTagAnchor').on('click', function(){
+                        var idElem = $(this).attr('id');
+                        idElem = idElem.replace("inputEditTagAnchor", '');
+                        $('#' + idElem + 'inputEditNewTag').toggle();
+                    });
+                });
+            </script>
             <!-- -------------------------------------- -->
+
+            <!-- Редактирование задачи ------------------------------ -->
+            <script>
+                $(document).ready(function() {
+                    $('.inputEditNewTag').keydown(function(e) {
+                        if(e.keyCode === 13) {
+
+                            var idElem = $(this).attr('id');
+                            //новый тег
+                            var inputText = $('#' + idElem).val();
+
+                            //получаю id
+                            var id = idElem.replace("inputEditNewTag", '');
+
+                            //уже существующие теги в виде строки
+                            var stringArray = ($('#' + id + 'TagsHiddenContainerEdit').val()).split(',');
+
+                            if (inputText != "" && inputText != null && !( inputText.indexOf(" ") >= 0) && stringArray.length <= 10) {
+                                if (!($.inArray(inputText, stringArray) >= 0)) {
+                                    //если тег уникальный
+
+                                    var aTag = $('<a>', {
+                                        class : 'badge badge-success badge-pill editNewTagAnchor mr-1',
+                                        href: "#",
+                                        text : inputText + " ×",
+                                        onclick : "return false",
+                                        id : id + '_' + inputText + '_' + 'AnchorTag',
+                                    });
+
+                                    //добавляем видимый тег
+                                    $('#' + id + 'TagsViewContainerEdit').append(aTag);
+
+                                    //добавляем текстовое значение тега в хранилище
+                                    $('#' + id + 'TagsHiddenContainerEdit').val($('#' + id + 'TagsHiddenContainerEdit').val() + inputText + ',');
+
+                                    $('#' + idElem).val(''); //очистка поля формы
+
+                                } else {
+                                    $('#' + idElem).val(''); //очистка поля формы
+                                }
+                            } else {
+                                $('#' + idElem).val(''); //очистка поля формы
+                            }
+                        }
+                      });
+                });
+            </script>
+            <script>
+                //удаление тегов из контейнера и поля с данными (редактирование задачи)
+                $(document).ready(function() {
+                    $('.TagsViewContainerEdit').on('click', '.editNewTagAnchor', function(){
+
+                        //удаляю элемент со страницы
+                        var idElem = $(this).attr('id');
+
+                        var deleteSubstring = $(this).text();
+                        var deleteSubstring = deleteSubstring.replace(" ×", '');
+
+                        var id = $(this).attr('id');
+                        id = id.replace('_' + deleteSubstring + "_AnchorTag", '');
+
+                        $('#' + idElem).remove();
+
+                        var storageTagsStr = $('#' + id + 'TagsHiddenContainerEdit').val(); //убираем подстроку из тега
+                        storageTagsStr = storageTagsStr.replace(deleteSubstring + ",", '');
+                        $('#' + id + 'TagsHiddenContainerEdit').val(storageTagsStr);
+                    });
+                });
+            </script>
+            <!-- ------------------------------ -->
 
             <!-- задачи пользователя -------------------------------------- -->
             <th:block th:each ="issue : ${issues}">

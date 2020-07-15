@@ -9,88 +9,6 @@
         <div class="row" th:id="${issue.id + 'CollapseEditBlock'}" style="display:none;"
              th:fragment="editIssue">
 
-            <!-- ------------------------------ -->
-            <script>
-                //по клику на кнопку показать поле для ввода тега
-                $(document).ready(function() {
-                    $('.editTagAnchor').on('click', function(){
-                        var idElem = $(this).attr('id');
-                        idElem = idElem.replace("inputEditTagAnchor", '');
-
-                        $('#' + idElem + 'inputEditNewTag').toggle();
-                    });
-                });
-            </script>
-            <script>
-                $(document).ready(function() {
-                    $('.inputEditNewTag').keydown(function(e) {
-                        if(e.keyCode === 13) {
-
-                            var idElem = $(this).attr('id');
-                            //новый тег
-                            var inputText = $('#' + idElem).val();
-
-                            //получаю id
-                            var id = idElem.replace("inputEditNewTag", '');
-
-                            //уже существующие теги в виде строки
-                            var stringArray = ($('#' + id + 'TagsHiddenContainerEdit').val()).split(',');
-
-                            if (inputText != "" && inputText != null && !( inputText.indexOf(" ") >= 0) && stringArray.length <= 10) {
-                                if (!($.inArray(inputText, stringArray) >= 0)) {
-                                    //если тег уникальный
-
-                                    var aTag = $('<a>', {
-                                        class : 'badge badge-success badge-pill editNewTagAnchor mr-1',
-                                        href: "#",
-                                        text : inputText + " ×",
-                                        onclick : "return false",
-                                        id : id + '_' + inputText + '_' + 'AnchorTag',
-                                    });
-
-                                    //добавляем видимый тег
-                                    $('#' + id + 'TagsViewContainerEdit').append(aTag);
-
-                                    //добавляем текстовое значение тега в хранилище
-                                    $('#' + id + 'TagsHiddenContainerEdit').val($('#' + id + 'TagsHiddenContainerEdit').val() + inputText + ',');
-
-                                    $('#' + idElem).val(''); //очистка поля формы
-
-                                } else {
-                                    $('#' + idElem).val(''); //очистка поля формы
-                                }
-                            } else {
-                                $('#' + idElem).val(''); //очистка поля формы
-                            }
-                        }
-                      });
-                });
-            </script>
-            <script>
-                //удаление тегов из контейнера и поля с данными
-                $(document).ready(function() {
-                    $('.TagsViewContainerEdit').on('click', '.editNewTagAnchor', function(){
-
-                        //удаляю элемент со страницы
-                        var idElem = $(this).attr('id');
-
-                        var deleteSubstring = $(this).text();
-                        var deleteSubstring = deleteSubstring.replace(" ×", '');
-
-                        var id = $(this).attr('id');
-                        id = id.replace('_' + deleteSubstring + "_AnchorTag", '');
-
-                        $('#' + idElem).remove();
-
-                        var storageTagsStr = $('#' + id + 'TagsHiddenContainerEdit').val(); //убираем подстроку из тега
-                        storageTagsStr = storageTagsStr.replace(deleteSubstring + ",", '');
-                        $('#' + id + 'TagsHiddenContainerEdit').val(storageTagsStr);
-                    });
-                });
-            </script>
-            <!-- ------------------------------ -->
-
-
             <div class="container-fluid card mt-3">
                 <div class="card-body">
 
@@ -173,7 +91,7 @@
                                     <div class="row align-items-center">
                                         <!-- конопка для тега -->
                                         <div class="col-auto pl-0">
-                                            <a href="#" onclick="return false" th:id="${issue.id + 'inputEditTagAnchor'}" class="btn btn-outline-success editTagAnchor">
+                                            <a href="#" onclick="return false" th:id="${issue.id + 'inputEditTagAnchor'}" class="btn btn-outline-success inputEditTagAnchor">
                                                 <p style="display:inline">Тег </p>
                                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tags" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>

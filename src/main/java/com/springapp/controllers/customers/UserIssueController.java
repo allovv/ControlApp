@@ -113,7 +113,10 @@ public class UserIssueController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("DuplicateIssueError", "Не удалось дублировать задачу");
         } else {
-            issueRepoService.save(duplicateIssue);
+            if (!issueRepoService.addIssue(duplicateIssue)) {
+                //redirect attr
+                redirectAttributes.addFlashAttribute("DuplicateIssueError", "Ошибка при дублировании задачи задачи!");
+            }
         }
         return "redirect:/user/folders/" + folderId;
     }
