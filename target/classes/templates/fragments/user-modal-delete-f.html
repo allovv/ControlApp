@@ -18,6 +18,8 @@
         >
             <div class="modal-dialog" role="document">
 
+                <!-- форма удаления категории -->
+                <!-- =============================================================================== -->
                 <form th:action="@{/user/folders/delete}" method="post"> <!-- POST request -->
 
                     <div class="modal-content">
@@ -28,18 +30,20 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Вы действительно хотите удалить рабочую область?
+                            <p>Все задачи будут полностью удалены без возможности восстановления.</p>
+                            <p>Вы действительно хотите удалить рабочую область?</p>
                         </div>
                         <div class="modal-footer">
 
                             <input type="number" th:value="${currentFolder.id}" name="folderId" class="d-none">
 
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                            <button type="submit" class="btn btn-primary">Удалить</button>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
                         </div>
                     </div>
 
                 </form>
+                <!-- =============================================================================== -->
             </div>
         </div>
         <!-- -------------------------------------------------------------------- -->

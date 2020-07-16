@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- -------------------------------------------------------------------- -->
+    <!-- Подтвердите очистку корзины -->
+
+    <!-- Button trigger modal -->
+    <!--
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+        Запустить модальное окно
+    </button>
+    -->
+
+    <!-- Modal -->
+    <div
+            class="modal fade" id="confirmClearBasketModal" tabindex="-1" role="dialog" aria-labelledby="confirmClearBasketLabel" aria-hidden="true"
+            th:fragment="confirmClearBasketModal"
+    >
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmClearBasketLabel">Подтвердите очистку корзины</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Данные будут полностью удалены.</p>
+                    <p>Вы действительно хотите очистить корзину?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+                    <!-- форма подтверждения очистки корзины -->
+                    <!-- =============================================================================== -->
+                    <form th:action="@{/user/basket/clear}" method="post" id="clearBasket">
+                        <button type="submit" class="btn btn-danger">Подтвердить</button>
+                    </form>
+                    <!-- =============================================================================== -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- -------------------------------------------------------------------- -->
+</body>
+</html>

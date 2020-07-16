@@ -35,7 +35,9 @@
                     </div>
 
                     <div class="card-body">
+
                         <!-- Выражение th:action="@{/login}" направляет форму к POST запросу -->
+                        <!-- =============================================================================== -->
                         <form th:action="@{/registration}" method="post" class="form-signin" th:object="${userEntity}">
                             <div class="form-group">
                                 <label for="exampleInputUsername">Имя пользователя</label>
@@ -81,6 +83,8 @@
 
                             <button type="submit" class="btn btn-lg btn-primary btn-block">Зарегистрироваться</button>
                         </form>
+                        <!-- =============================================================================== -->
+
                     </div>
 
                 </div>

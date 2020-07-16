@@ -93,7 +93,7 @@
                                 <thead>
                                     <tr>
                                         <th>Username</th>
-                                        <th>Создано задач</th>
+                                        <th>Задач на данный момент в категориях</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -101,6 +101,29 @@
                                         <td th:text="${issueMap.key}"></td>
                                         <td th:text="${issueMap.value}"></td>
                                     </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <hr> <!-- разделитель -->
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container-fluid mt-4">
+                            <table class="table table-hover table-inverse">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Задач в корзине</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each ="issueDeletedMap : ${numIssuesDeletedMap}">
+                                    <td th:text="${issueDeletedMap.key}"></td>
+                                    <td th:text="${issueDeletedMap.value}"></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

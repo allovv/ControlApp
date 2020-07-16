@@ -2,35 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
         <!-- -------------------------------------------------------------------- -->
-        <nav
-                th:fragment="navUser"
-                class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-3 shadow align-items-center"
-        >
 
-            <div class="row align-items-center justify-content-center ml-0 mr-auto">
-                <a class="navbar-brand mr-1" href="#">
-                    <img src="/static/assets/img/control-logo.png" width="30" height="30" alt="">
-                </a>
-                <a class="navbar-brand m-auto" href="#">Control</a>
+        <div class="row bg-primary" th:fragment="navUser">
+
+            <div class="col-1"></div>
+            <div class="col-10">
+
+                <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0 align-items-center justify-content-between">
+                    <ul class="nav nav-pills ">
+                        <li class="nav-item align-items-center">
+                            <a class="navbar-brand mr-1" href="#">
+                                <img src="/static/assets/img/control-logo.png" width="30" height="30" alt="">
+                            </a>
+                            <a class="navbar-brand m-auto" href="#">Control</a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-pills align-items-center text-white">
+                        <li class="nav-item dropdown">
+                            <a class="h2 nav-link text-white row mr-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="text-decoration:none">
+                                <span class="navbar-brand mr-1" href="#" style="display:inline">
+                                    <img src="/static/assets/img/account-logo-2.png" width="40" height="40" alt="">
+                                </span>
+                                <p th:text="${userEntity.username}" class="text-white h4" style="display:inline;font-weight: 400;"></p>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Аккаунт</a>
+                                <div class="dropdown-divider"></div>
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="btn btn-light text-primary dropdown-item">Выйти</button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+
+                <!-- -------------------------------------------------------------------- -->
             </div>
+            <div class="col-1"></div>
 
-            <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a href="#" th:text="${userEntity.username}" class="text-white"></a>
-                </li>
-            </ul>
-
-            <div class="nav-item text-nowrap"> <!-- выход из системы -->
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-light text-primary">Выйти</button>
-                </form>
-            </div>
-
-        </nav>
-        <!-- -------------------------------------------------------------------- -->
+        </div>
     </body>
 </html>

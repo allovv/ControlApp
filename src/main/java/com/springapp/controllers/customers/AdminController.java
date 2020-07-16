@@ -54,7 +54,7 @@ public class AdminController {
         }
         model.put("numFoldersMap", numFoldersMap);
 
-        //количество задач
+        //количество задач (всего)
         List<IssueEntity> issueEntities = issueRepoService.findAll();
         model.put("numIssues", issueEntities.size());
         HashMap<String, Long> numIssuesMap = new HashMap<>();
@@ -66,6 +66,15 @@ public class AdminController {
             numIssuesMap.put(user.getUsername(), counter);
         }
         model.put("numIssuesMap", numIssuesMap);
+
+        //количество задач в корзине
+        issueEntities = issueRepoService.findAll();
+        model.put("numIssues", issueEntities.size());
+        HashMap<String, Long> numIssuesDeletedMap = new HashMap<>();
+        for (UserEntity user : userEntities) {
+            numIssuesDeletedMap.put(user.getUsername(), (long) issueRepoService.findAllByCreatorIdAndStatus(user.getId(), IssueEntity.IssueStatus.DELETE).size());
+        }
+        model.put("numIssuesDeletedMap", numIssuesDeletedMap);
 
         return "admin";
     }

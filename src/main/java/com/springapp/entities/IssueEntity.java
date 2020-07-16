@@ -30,8 +30,10 @@ public class IssueEntity {
     @Size(max=255, message = "Максимальная длина описания 255 символов.")
     private String description = "";
 
-    @NotNull(message = "Идентификатор области при создании задачи не должен быть пустым.")
     private Long folderId;
+
+    @NotNull(message = "Идентификатор создателя при создании задачи не должен быть пустым.")
+    private Long creatorId;
 
     @NotNull(message = "Статус задачи не должен быть пустым.")
     private IssueStatus status = IssueStatus.COMMON;
@@ -51,10 +53,10 @@ public class IssueEntity {
     //-------------------------------------------------------------
     protected IssueEntity() {}
 
-    public IssueEntity(String name, Long folderId) {
+    public IssueEntity(String name, Long creatorId) {
         this.name = name;
         this.description = "";
-        this.folderId = folderId;
+        this.creatorId = creatorId;
         this.done = false;
 
         //установка даты
@@ -65,9 +67,10 @@ public class IssueEntity {
         status = IssueStatus.COMMON;
     }
 
-    public IssueEntity(String name, String description, Long folderId) {
+    public IssueEntity(String name, String description, Long creatorId, Long folderId) {
         this.name = name;
         this.description = description;
+        this.creatorId = creatorId;
         this.folderId = folderId;
         this.done = false;
 
@@ -119,6 +122,14 @@ public class IssueEntity {
 
     public void setFolderId(Long folderId) {
         this.folderId = folderId;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
     public String getCreateDate() {

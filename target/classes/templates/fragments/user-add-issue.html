@@ -50,8 +50,9 @@
                     <div class="col-12">
 
 
-                        <!-- form to add issue -------------------------------------- -->
+                        <!-- form to add issue (форма добавления новой задачи) -------------------------------------- -->
                         <div class="row">
+                            <!-- =============================================================================== -->
                             <form th:action="@{'/user/folder/issue'}" method="post" id="addNewIssueForm" class="container-fluid m-0 p-0">
                                 <div class="container-fluid">
                                     <hr> <!-- разделитель -->
@@ -100,11 +101,16 @@
                                         <input type="number" class="d-none" name="currentFolderId"
                                                th:value="${currentFolder.id}">
                                     </div>
+                                    <!-- creatorId.id -->
+                                    <div class="form-group">
+                                        <input type="hidden" name="creatorId"
+                                               th:value="${userEntity.id}">
+                                    </div>
                                     <hr>
                                 </div>
                             </form>
+                            <!-- =============================================================================== -->
                         </div>
-                        <!-- form to add issue -------------------------------------- -->
 
 
                         <!-- добавление тега к задаче ------------------------------ -->

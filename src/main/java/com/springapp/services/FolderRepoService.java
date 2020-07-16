@@ -65,10 +65,13 @@ public class FolderRepoService {
     }
 
     //delete --------------------------------------------
+
     public void deleteById(Long id) {
+        //удаляем категорию
         folderRepository.deleteById(id);
         List<IssueEntity> issueEntities = issueRepoService.findAllByFolderId(id);
         for (int i = 0; i < issueEntities.size(); i++) {
+            //удаляем все задачи, которые в ней находились
             issueRepoService.deleteById(issueEntities.get(i).getId());
         }
     }
@@ -79,10 +82,14 @@ public class FolderRepoService {
     }
 
     public void deleteAllByCreatorId(Long creatorId) {
+        //находим все категории
         List<FolderEntity> folderEntities = folderRepository.findAllByCreatorId(creatorId);
         for (int i = 0; i < folderEntities.size(); i++) {
-            deleteById(folderEntities.get(i).getId());
+            //удаляем категории
+            folderRepository.deleteById(folderEntities.get(i).getId());
         }
+        //удаляем все задачи, созданные пользователем
+        issueRepoService.deleteAllByCreatorId(creatorId);
     }
 
     //save --------------------------------------------

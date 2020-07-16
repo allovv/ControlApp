@@ -35,6 +35,10 @@
     background-color: #DEDEDE!important;
 }
 
+.bg-light {
+    background-color: #f8f9fa!important;
+}
+
 /* -------------------------------------- */
 
 .badge-light {
@@ -61,3 +65,8 @@
 }
 
 /* -------------------------------------- */
+
+.show>.nav-link {
+    color: #fff;
+    background-color: transparent !important;
+}

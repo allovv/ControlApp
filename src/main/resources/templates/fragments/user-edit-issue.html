@@ -22,8 +22,9 @@
                         </div>
                     </div>
 
-                    <!-- форма редактирования задачи -------------------------------------- -->
                     <div class="row">
+                        <!-- форма редактирования задачи -------------------------------------- -->
+                        <!-- =============================================================================== -->
                         <form th:action="@{/user/folder/issue/edit}" method="post" class="container-fluid m-0 p-0" th:id="${issue.id + 'EditIssuePostForm'}">
                             <div class="container-fluid">
                                 <hr> <!-- разделитель -->
@@ -68,6 +69,10 @@
                                     </select>
                                 </div>
 
+                                <!-- creatorId.id -->
+                                <div class="form-group">
+                                    <input type="hidden" name="creatorId" th:value="${userEntity.id}">
+                                </div>
                                 <!-- issue.id -->
                                 <div class="form-group">
                                     <input name="issueId" type="hidden" class="form-check-input" th:value="${issue.id}">
@@ -80,8 +85,8 @@
                                 <hr>
                             </div>
                         </form>
+                        <!-- =============================================================================== -->
                     </div>
-                    <!-- form to add issue -------------------------------------- -->
 
                     <!-- блок с кнопками -->
                     <div class="container-fluid">

@@ -65,7 +65,7 @@ public class UserFolderController {
         model.put("folders", folderRepoService.findAllByCreatorId(userEntity.getId()));
         model.put("currentFolder", folderRepoService.findById(folderId));
 
-        Set<IssueEntity> issues = new HashSet<>();
+        Set<IssueEntity> issues = new HashSet<>(); //TODO: сортировка по имени
         for (IssueEntity issueEntity : issueRepoService.findAllByFolderIdAndStatus(folderId, IssueEntity.IssueStatus.COMMON)) {
             if (issueEntity.getTagsContainer().contains(tagToFilter)) {
                 issues.add(issueEntity);

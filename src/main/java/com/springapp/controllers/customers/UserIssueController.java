@@ -82,6 +82,7 @@ public class UserIssueController {
     @PostMapping("/user/folder/issue/delete")
     public String deleteIssue(@ModelAttribute("folderId") Long folderId,
                               @ModelAttribute("issueId") Long issueId) {
+        //Задаче присваивается специальный статус и она отображается только в корзине
         issueRepoService.setStatusById(issueId, IssueEntity.IssueStatus.DELETE);
         return "redirect:/user/folders/" + folderId;
     }
@@ -104,8 +105,8 @@ public class UserIssueController {
      * Копирование задачи
      * POST
      */
-    @PostMapping("/user/{folderId}/issue/duplicate")
-    public String duplicateIssue(@PathVariable("folderId") Long folderId,
+    @PostMapping("/user/{currentFolderId}/issue/duplicate")
+    public String duplicateIssue(@PathVariable("currentFolderId") Long currentFolderId,
                                  @ModelAttribute @Valid IssueEntity duplicateIssue, BindingResult bindingResult,
                                  HttpSession httpSession,
                                  RedirectAttributes redirectAttributes,
@@ -118,7 +119,7 @@ public class UserIssueController {
                 redirectAttributes.addFlashAttribute("DuplicateIssueError", "Ошибка при дублировании задачи задачи!");
             }
         }
-        return "redirect:/user/folders/" + folderId;
+        return "redirect:/user/folders/" + currentFolderId;
     }
 
 }

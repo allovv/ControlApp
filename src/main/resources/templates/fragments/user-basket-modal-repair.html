@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- -------------------------------------------------------------------- -->
+<!-- Восстановление задачи из корзины -->
+
+    <!-- Modal -->
+    <th:block th:fragment="repairBasketModal">
+
+        <div
+                class="modal fade" th:id="${issue.getId()} + 'RepairModal'"
+                tabindex="-1"
+                role="dialog"
+                aria-hidden="true"
+                aria-labelledby="confirmRepairModalLabel"
+        >
+            <div class="modal-dialog" role="document">
+
+                <!-- форма восстановления задачи из корзины -->
+                <!-- =============================================================================== -->
+                <form th:action="@{'/user/basket/repair/' + ${issue.id}}" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmRepairModalLabel">Восстановить задачу из корзины</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Расположение задачи:</p>
+
+                            <!-- id -->
+                            <input name="id" type="hidden" th:value="${issue.id}">
+                            <!-- name -->
+                            <input name="name" type="hidden" th:value="${issue.name}">
+                            <!-- description -->
+                            <input name="description" type="hidden" th:value="${issue.description}">
+                            <!-- tags -->
+                            <input type="hidden" name="tagsNoParsing" th:value="${issue.tagsNoParsing}">
+                            <!-- status -->
+                            <input type="hidden" name="done" th:value="${issue.done}">
+                            <!-- createDate -->
+                            <input type="hidden" name="createDate" th:value="${issue.createDate}">
+                            <!-- creator.id -->
+                            <input type="hidden" name="creatorId" th:value="${userEntity.id}">
+                            <!-- location -->
+                            <div class="form-group">
+                                <select class="form-control border-white" placeholder="Расположение" name="folderId">
+                                    <option th:each ="folder : ${folders}"
+                                            th:text="${folder.name}"
+                                            th:value="${folder.id}"
+                                            th:selected="${folder.id}">
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-danger">Подтвердить</button>
+                        </div>
+
+                    </div>
+
+                </form>
+                <!-- =============================================================================== -->
+
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------------- -->
+
+    </th:block>
+
+</body>
+</html>

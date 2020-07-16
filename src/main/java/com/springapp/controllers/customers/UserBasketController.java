@@ -1,6 +1,5 @@
 package com.springapp.controllers.customers;
 
-import com.springapp.entities.FolderEntity;
 import com.springapp.entities.IssueEntity;
 import com.springapp.entities.UserEntity;
 import com.springapp.services.FolderRepoService;
@@ -8,9 +7,12 @@ import com.springapp.services.IssueRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,15 +40,47 @@ public class UserBasketController {
     }
 
     //-------------------------------------------------------------
-    private List<IssueEntity> getAllDeletedIssues(Long userId) {
-        List<FolderEntity> userFolders = folderRepoService.findAllByCreatorId(userId);
-        ArrayList<IssueEntity> deletedIssues = new ArrayList<>();
 
-        for (FolderEntity folder : userFolders) {
-            List<IssueEntity> issues = issueRepoService.findAllByFolderIdAndStatus(folder.getId(), IssueEntity.IssueStatus.DELETE);
-            deletedIssues.addAll(issues);
+    /**
+     * Очистить корзину
+     * POST
+     */
+    @PostMapping("/user/basket/clear")
+    public String clearBasket(@AuthenticationPrincipal UserEntity userEntity, Model model) {
+        for (IssueEntity deletedIssue : getAllDeletedIssues(userEntity.getId())) {
+            issueRepoService.deleteById(deletedIssue.getId());
         }
+        return "redirect:/user/basket";
+    }
 
-        return deletedIssues;
+    /**
+     * Удалить конкретную задачу из корзины
+     * POST
+     */
+    @PostMapping("/user/basket/clear/{issueId}")
+    public String deleteIssueFromBasket(@PathVariable("issueId") Long issueId, Model model) {
+        issueRepoService.deleteById(issueId);
+        return "redirect:/user/basket";
+    }
+
+    /**
+     * Восстановить конкретную задачу из корзины
+     * POST
+     */
+    @PostMapping("/user/basket/repair/{issueId}")
+    public String repairIssueFromBasket(@PathVariable("issueId") Long issueId,
+                                        @ModelAttribute IssueEntity issueToRepair,
+                                        Model model) {
+        if (issueToRepair.getFolderId() == null || issueToRepair.getCreatorId() == null || issueToRepair.getId() == null) {
+            //ошибка восстановления задачи
+            return "redirect:/user/basket";
+        }
+        issueRepoService.save(issueToRepair);
+        return "redirect:/user/basket";
+    }
+
+    //-------------------------------------------------------------
+    private List<IssueEntity> getAllDeletedIssues(Long userId) {
+        return issueRepoService.findAllByCreatorIdAndStatus(userId, IssueEntity.IssueStatus.DELETE);
     }
 }

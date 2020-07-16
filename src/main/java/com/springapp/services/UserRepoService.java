@@ -44,7 +44,9 @@ public class UserRepoService {
         userRepository.save(userEntity);
 
         //добавление областей по умолчанию
-        folderRepoService.addFolder(new FolderEntity("Задачи", userEntity.getId()));
+        folderRepoService.addFolder(new FolderEntity("Личные", userEntity.getId()));
+        folderRepoService.addFolder(new FolderEntity("Рабочие", userEntity.getId()));
+        folderRepoService.addFolder(new FolderEntity("Общие", userEntity.getId()));
         return true;
     }
 

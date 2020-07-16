@@ -27,35 +27,43 @@
 
         <!-- SIDEBAR ------------------------------------------------------------------------------- -->
 
+        <div class="col-1 bg-light"></div>
+
         <div class="col-3 bg-light sidebar">
 
-            <!-- ==================================================================== -->
-            <th:block th:insert="fragments/user-sidebar :: sidebarUser"></th:block>
-            <!-- ==================================================================== -->
+            <div class="row justify-content-end mt-2 mr-2">
+                <!-- ==================================================================== -->
+                <th:block th:insert="fragments/user-sidebar :: sidebarUser"></th:block>
+                <!-- ==================================================================== -->
 
-            <!-- ==================================================================== -->
-            <div th:insert="fragments/user-modal-add-f :: addFolderModal"></div>
-            <!-- ==================================================================== -->
+                <!-- ==================================================================== -->
+                <div th:insert="fragments/user-modal-add-f :: addFolderModal"></div>
+                <!-- ==================================================================== -->
+            </div>
 
         </div>
 
         <!-- SIDEBAR ------------------------------------------------------------------------------- -->
 
         <!-- CONTENT ------------------------------------------------------------------------------- -->
-        <div class="col-9">
+        <div class="col-7">
 
             <div class="row justify-content-center">
-                <div class="col-9 mt-5">
+                <div class="col-11 mt-5">
 
 
                     <div class="container-fluid mt-5">
+
+                        <!-- ==================================================================== -->
+                        <div th:insert="fragments/user-basket-modal-confirm-clear :: confirmClearBasketModal"></div>
+                        <!-- ==================================================================== -->
 
                         <!-- шапка корзины --------------------------------------------- -->
                         <div class="container-fluid mb-5">
                             <div class="row justify-content-between">
 
                                 <div class="col-auto mr-auto">
-                                    <p class="h2">
+                                    <p class="h2 text-muted">
                                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M3.18 4l1.528 9.164a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836L12.82 4H3.18zm.541 9.329A2 2 0 0 0 5.694 15h4.612a2 2 0 0 0 1.973-1.671L14 3H2l1.721 10.329z"/>
                                             <path d="M14 3c0 1.105-2.686 2-6 2s-6-.895-6-2 2.686-2 6-2 6 .895 6 2z"/>
@@ -63,6 +71,12 @@
                                         </svg>
                                         <span class="mb-1 ml-2">Корзина</span>
                                     </p>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmClearBasketModal">
+                                        Очистить корзину
+                                    </button>
                                 </div>
 
                             </div>
@@ -76,43 +90,50 @@
                             <div class="container-fluid mt-1">
 
 
+                                <script>
+                                    //показать модальное окно для восстановления задачи
+                                    $(document).ready(function() {
+                                        $('.repairOpenModalButton').on('click', function(){
+                                            var idElem = $(this).attr('id');
+                                            idElem = idElem.replace("Button", '');
+                                            $('#' + idElem).modal('show')
+                                        });
+                                    });
+                                </script>
+
+
                                 <!-- задачи пользователя -------------------------------------- -->
                                 <th:block th:each ="issue : ${issues}">
+
                                     <div class="container-fluid mt-3">
                                         <div class="row">
 
                                             <!-- вывод информации о задаче и форма изменения состояния задачи -->
                                             <div class="form-check col-auto mr-auto">
-                                                <form th:action="'/user/folder/' + '${}' + '/issue'" method="post" th:id="${issue.id}">
+                                                <!-- checkbox -->
+                                                <input class="form-check-input trackChangeCheckbox"
+                                                       type="checkbox"
+                                                       th:id="${issue.id} + 'Check'"
+                                                       th:name="${issue.id} + 'Check'"
+                                                       th:checked="${issue.done} ? 'checked'"
+                                                       disabled
+                                                >
 
-                                                    <!-- issue.id -->
-                                                    <input type="hidden" name="issueId" th:value="${issue.id}">
+                                                <!-- issue.name -->
+                                                <p th:if="${issue.done}" class="h6"><s th:text="${issue.name}"></s></p>
+                                                <p th:unless="${issue.done}" th:text="${issue.name}" class="h6"></p>
 
-                                                    <!-- checkbox -->
-                                                    <input class="form-check-input trackChangeCheckbox"
-                                                           type="checkbox"
-                                                           th:id="${issue.id} + 'Check'"
-                                                           th:name="${issue.id} + 'Check'"
-                                                           th:checked="${issue.done} ? 'checked'"
-                                                           disabled
-                                                    >
+                                                <!-- issue.description -->
+                                                <div class="container-fluid text-muted">
+                                                    <p th:text="${issue.description}"></p>
+                                                </div>
 
-                                                    <!-- issue.name -->
-                                                    <p th:if="${issue.done}" class="h6"><s th:text="${issue.name}"></s></p>
-                                                    <p th:unless="${issue.done}" th:text="${issue.name}" class="h6"></p>
-
-                                                    <!-- issue.description -->
-                                                    <div class="container-fluid text-muted">
-                                                        <p th:text="${issue.description}"></p>
-                                                    </div>
-
-                                                    <!-- issue.tagsContainer -->
-                                                    <div class="container-fluid">
-                                                        <th:block th:each ="tag : ${issue.tagsContainer}">
-                                                            <a href="#" class="badge badge-success badge-pill" onclick="return false" th:text="${tag}"></a>
-                                                        </th:block>
-                                                    </div>
-                                                </form>
+                                                <!-- issue.tagsContainer -->
+                                                <div class="container-fluid">
+                                                    <th:block th:each ="tag : ${issue.tagsContainer}">
+                                                        <a href="#" class="badge badge-success badge-pill" onclick="return false" th:text="${tag}"></a>
+                                                    </th:block>
+                                                </div>
                                             </div>
 
                                             <!-- кнопка восстановления ... -->
@@ -125,26 +146,39 @@
 
                                                     <!-- список действий -->
                                                     <div class="col-auto">
+                                                        <!-- удалить из корзины -->
+                                                        <!-- =============================================================================== -->
+                                                        <form th:action="@{'/user/basket/clear/' + ${issue.id}}" method="post">
+                                                            <button type="submit" class="btn btn-outline-danger border-white">
+                                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+                                                                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                        <!-- =============================================================================== -->
+                                                    </div>
+                                                    <div class="col-auto">
+
+                                                        <!-- восстановить из корзины -->
+                                                        <button type="button"
+                                                                class="btn btn-outline-success border-white repairOpenModalButton"
+                                                                data-toggle="modal"
+                                                                th:data-target="'#' + ${issue.getId()} + 'RepairModal'"
+                                                                th:id="${issue.getId()} + 'RepairModalButton'">
+                                                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-hammer" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M9.812 1.952a.5.5 0 0 1-.312.89c-1.671 0-2.852.596-3.616 1.185L4.857 5.073V6.21a.5.5 0 0 1-.146.354L3.425 7.853a.5.5 0 0 1-.708 0L.146 5.274a.5.5 0 0 1 0-.706l1.286-1.29a.5.5 0 0 1 .354-.146H2.84C4.505 1.228 6.216.862 7.557 1.04a5.009 5.009 0 0 1 2.077.782l.178.129z"/>
+                                                                <path fill-rule="evenodd" d="M6.012 3.5a.5.5 0 0 1 .359.165l9.146 8.646A.5.5 0 0 1 15.5 13L14 14.5a.5.5 0 0 1-.756-.056L4.598 5.297a.5.5 0 0 1 .048-.65l1-1a.5.5 0 0 1 .366-.147z"/>
+                                                            </svg>
+                                                        </button>
+
+                                                        <!-- модальное окно восстановления задачи ---------------------------------->
+                                                        <!-- ==================================================================== -->
+                                                        <div th:insert="fragments/user-basket-modal-repair :: repairBasketModal"></div>
+                                                        <!-- ==================================================================== -->
 
                                                     </div>
 
-                                                    <!-- duplicate issue form -->
-                                                    <form th:action="@{'/user/' + '${}' + '/issue/duplicate'}" method="post" th:id="${issue.id}">
-                                                        <!-- name -->
-                                                        <input name="id" type="hidden" th:value="${issue.id}">
-                                                        <!-- name -->
-                                                        <input name="name" type="hidden" th:value="${issue.name}">
-                                                        <!-- description -->
-                                                        <input name="description" type="hidden" th:value="${issue.description}">
-                                                        <!-- tags -->
-                                                        <input type="hidden" name="tagsNoParsing" th:value="${issue.tagsNoParsing}">
-                                                        <!-- location -->
-                                                        <input type="hidden" name="folderId" th:value="${issue.folderId}">
-                                                        <!-- status -->
-                                                        <input type="hidden" name="done" th:value="${issue.done}">
-                                                        <!-- createDate -->
-                                                        <input type="hidden" name="createDate" th:value="${issue.createDate}">
-                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -166,6 +200,8 @@
             </div>
 
         </div>
+
+        <div class="col-1 bg-light"></div>
         <!-- CONTENT ------------------------------------------------------------------------------- -->
     </div>
 </div>
